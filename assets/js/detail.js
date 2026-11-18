@@ -1,0 +1,224 @@
+/* Angebotsseite: Baukasten mit Live-Preis */
+(function () {
+  var U = RR.util, P = RR.pricing, el = U.el;
+  var params = new URLSearchParams(location.search);
+  var lang = U.getLang();
+  var offer = RR.OFFERS.filter(function (o) { return o.id === params.get('id'); })[0] || null;
+  var state = offer ? P.initialState(offer, Number(params.get('h')) || 1, Number(params.get('g')) || 0) : null;
+  var content = document.getElementById('content');
+  var T = function (k, v) { return U.t(lang, k, v); };
+  var L = function (obj) { return U.pick(obj, lang); }; // [Titel, Untertitel] in der aktuellen Sprache
+
+  function set(patch) { state = Object.assign({}, state, patch); render(); }
+  function setTrophy(sp, id) { var t = Object.assign({}, state.trophy); t[sp] = id; set({ trophy: t }); }
+
+  /* ---------- Bausteine ---------- */
+  function option(fid, label, sub, price, selected, disabled, onPick) {
+    return el('button', { type: 'button', class: 'opt', 'data-fid': fid, 'aria-pressed': String(!!selected), disabled: disabled, onclick: onPick },
+      el('span', { class: 'row' }, el('span', { class: 'lbl' }, label), el('span', { class: 'pr' }, price)),
+      sub && el('span', { class: 'sub' }, sub));
+  }
+  function card(num, title, hint) {
+    var body = el('section', { class: 'card' },
+      el('div', { class: 'card-head' }, el('span', { class: 'num', 'aria-hidden': 'true' }, String(num)),
+        el('div', null, el('h2', null, title), hint && el('p', null, hint))));
+    for (var i = 3; i < arguments.length; i++) U.append(body, arguments[i]);
+    return body;
+  }
+  function counter(fid, label, sub, value, min, max, lessLbl, moreLbl, key) {
+    return el('div', { class: 'counter' },
+      el('div', null, el('span', { class: 'lbl' }, label), el('span', { class: 'sub' }, sub)),
+      el('div', { class: 'ctl' },
+        el('button', { type: 'button', class: 'round', 'data-fid': fid + '-', 'aria-label': lessLbl, disabled: value <= min, onclick: function () { var p = {}; p[key] = Math.max(min, value - 1); set(p); } }, '−'),
+        el('span', { class: 'val', 'aria-live': 'polite' }, String(value)),
+        el('button', { type: 'button', class: 'round', 'data-fid': fid + '+', 'aria-label': moreLbl, disabled: value >= max, onclick: function () { var p = {}; p[key] = Math.min(max, value + 1); set(p); } }, '+')));
+  }
+
+  function staysBlock(o) {
+    var persons = state.h + state.g;
+    return el('div', { class: 'stays' },
+      el('div', { class: 'stays-head' }, el('h3', null, T('staysTitle')), el('span', null, T('staysSource'))),
+      el('p', { class: 'intro' }, T('staysText')),
+      P.stays(o, state).map(function (x) {
+        var st = x.stay, sel = state.stay === st.id && x.available;
+        var av = !x.available ? (x.left === 0 ? T('availNone') : T('availTooSmall', { n: persons })) : (x.few ? T('availFew', { n: x.left }) : T('availOk'));
+        return el('div', { class: 'stay' + (sel ? ' sel' : '') + (!x.available ? ' dis' : '') },
+          el('button', { type: 'button', class: 'stay-pick', 'data-fid': 'stay-' + st.id, 'aria-pressed': String(sel), disabled: !x.available, onclick: function () { set({ stay: st.id }); } },
+            el('span', { class: 'name' }, st.name),
+            el('span', { class: 'm' }, L(st.type) + ' · ' + T('kmTo', { n: st.km }) + ' · ' + L(st.unit)),
+            el('span', { class: !x.available ? 'av-no' : (x.few ? 'av-few' : 'av-ok') }, '● ' + av)),
+          el('div', { class: 'stay-price' },
+            el('span', { class: 'pn' }, T('perNight', { v: U.eur(st.night) })),
+            el('span', { class: 'tot' }, U.eur(x.total)),
+            el('span', { class: 'u' }, T('nightsUnits', { u: x.units, unit: L(st.unit), n: o.nights })),
+            el('a', { href: st.url, target: '_blank', rel: 'noopener' }, T('viewStay'))));
+      }));
+  }
+
+  function config(o, r) {
+    var n = 0, persons = state.h + state.g;
+    var cards = [];
+
+    cards.push(card(++n, T('stepDate'), o.includes,
+      el('div', { class: 'options' }, o.termine.map(function (t) {
+        return option('t-' + t.id, t.label, t.sub + ' · ' + (t.free ? T('freeOf', { n: t.free }) : T('soldOut')),
+          t.free ? U.eur(o.base) + ' ' + T('perHunterShort') : '', state.termin === t.id, !t.free, function () { set({ termin: t.id }); });
+      }))));
+
+    cards.push(card(++n, T('stepPeople'), T('stepPeopleHint'),
+      el('div', { class: 'people' },
+        counter('h', T('hunters'), T('hunterSub'), state.h, 1, o.capacity, T('lessHunter'), T('moreHunter'), 'h'),
+        counter('g', T('guests'), T('guestSub', { v: U.eur(RR.SHARED.guestFee) }), state.g, 0, 10, T('lessGuest'), T('moreGuest'), 'g')),
+      r.overCapacity && el('p', { class: 'warn', role: 'status' }, T('notEnough', { n: r.termin.free }))));
+
+    o.trophies.forEach(function (sp) {
+      var def = RR.TROPHY[sp];
+      cards.push(card(++n, T('stepTrophy', { s: L(def) }), T('stepTrophyHint', { note: L(def.note) }),
+        el('div', { class: 'options' }, def.classes.map(function (c) {
+          return option('tr-' + sp + '-' + c.id, L(c)[0], L(c)[1], c.price ? T('approx', { v: U.eur(c.price) }) : '0 €',
+            state.trophy[sp] === c.id, false, function () { setTrophy(sp, c.id); });
+        }))));
+    });
+
+    cards.push(card(++n, T('stepWeapon'), T('stepWeaponHint'),
+      el('div', { class: 'options' }, RR.SHARED.weapon.map(function (w) {
+        var na = w.id === 'leih' && !o.rental;
+        var sub = na ? T('rentalNA') : L(w)[1] + (w.perDay ? ' · ' + T('perDayNote', { v: U.eur(w.perDay) }) : '');
+        return option('w-' + w.id, L(w)[0], sub, w.perDay ? T('plusPH', { v: U.eur(w.perDay * o.days) }) : T('inclusive'),
+          state.weapon === w.id, na, function () { set({ weapon: w.id }); });
+      }))));
+
+    cards.push(card(++n, T('stepGuide'), T('stepGuideHint'),
+      el('div', { class: 'options' }, RR.SHARED.guide.map(function (gd) {
+        return option('gd-' + gd.id, L(gd)[0], L(gd)[1] + (gd.perDay ? ' · ' + T('perDayNote', { v: U.eur(gd.perDay) }) : ''),
+          gd.perDay ? T('plusPH', { v: U.eur(gd.perDay * o.days) }) : T('inclusive'), state.guide === gd.id, false, function () { set({ guide: gd.id }); });
+      }))));
+
+    var lodgingOpts = [option('l-none', T('lodgingNone')[0], T('lodgingNone')[1], T('inclusive'), state.lodging === 'none', false, function () { set({ lodging: 'none' }); })]
+      .concat(o.lodging.map(function (l) {
+        return option('l-' + l.id, L(l)[0], L(l)[1] + ' · ' + o.nights + ' × ' + U.eur(l.perNight), T('plusPP', { v: U.eur(l.perNight * o.nights) }),
+          state.lodging === l.id, false, function () { set({ lodging: l.id }); });
+      }));
+    if (o.stays) {
+      var min = Math.min.apply(null, RR.STAYS[o.stays].map(function (s) { return s.night; }));
+      lodgingOpts.push(option('l-extern', T('lodgingExt')[0], T('lodgingExt')[1], T('fromNight', { v: U.eur(min) }),
+        state.lodging === 'extern', false, function () { set({ lodging: 'extern' }); }));
+    }
+    var ext = state.lodging === 'extern';
+    cards.push(card(++n, T('stepLodging'), T('stepLodgingHint', { n: persons }),
+      el('div', { class: 'options' }, lodgingOpts),
+      ext && staysBlock(o),
+      ext && !r.chosenStay && el('p', { class: 'warn', role: 'status' }, T('pickStay'))));
+
+    cards.push(card(++n, T('stepTravel'), T('stepTravelHint', { n: persons }),
+      el('div', { class: 'options' }, o.travel.map(function (t) {
+        return option('tv-' + t.id, L(t)[0], L(t)[1], t.price ? T('plusPP', { v: U.eur(t.price) }) : T('inclusive'),
+          state.travel === t.id, false, function () { set({ travel: t.id }); });
+      }))));
+
+    if (o.trophies.length) {
+      var tc = r.trophyCount;
+      cards.push(card(++n, T('stepPrep'), tc ? T('stepPrepHint', { n: tc }) : T('stepPrepNone'),
+        el('div', { class: 'options' }, RR.SHARED.trophyPrep.map(function (p) {
+          return option('p-' + p.id, L(p)[0], L(p)[1], p.price ? T('plusPT', { v: U.eur(p.price) }) : T('free'),
+            state.prep === p.id, !tc && p.id !== 'none', function () { set({ prep: p.id }); });
+        }))));
+    }
+
+    return el('div', { class: 'config' },
+      el('div', { class: 'rec-box' },
+        el('div', { class: 'txt' }, el('span', { class: 'eyebrow' }, T('recBox')), el('span', null, T('recBoxText'))),
+        el('div', { class: 'actions' },
+          el('button', { type: 'button', class: 'btn dark', 'data-fid': 'rec', onclick: function () { state = P.applyRecommended(o, state); render(); } }, T('applyRec')),
+          el('button', { type: 'button', class: 'btn outline', 'data-fid': 'reset', onclick: function () { state = P.initialState(o, state.h, state.g); render(); } }, T('resetAll')))),
+      cards);
+  }
+
+  function lineText(o, l, r) {
+    var x = '';
+    switch (l.key) {
+      case 'base': return [T('lineBase'), l.qty + ' × ' + U.eur(l.unit) + ' · ' + r.termin.label];
+      case 'guests': return [T('lineGuests'), l.qty + ' × ' + U.eur(l.unit)];
+      case 'weapon': return [T('lineWeapon'), l.qty + ' × ' + U.eur(l.unit)];
+      case 'guide': return [T('lineGuide'), l.qty + ' × ' + U.eur(l.unit)];
+      case 'lodging': case 'travel': case 'prep': return [L(l.item)[0], l.qty + ' × ' + U.eur(l.unit)];
+      case 'stay': return [l.item.stay.name, T('selfBookSub') + ' · ' + T('nightsUnits', { u: l.item.units, unit: L(l.item.stay.unit), n: o.nights })];
+      case 'trophy': return [L(l.item)[0], T('onlyIfShot') + ' · ' + l.qty + ' × ' + T('approx', { v: U.eur(l.unit) })];
+    }
+    return [l.key, x];
+  }
+
+  function summary(o, r) {
+    return el('aside', { class: 'summary', 'aria-label': T('sumTitle') },
+      el('div', { class: 'head' }, el('h2', null, T('sumTitle')),
+        el('span', null, r.termin.label + ' · ' + T('huntersN', { n: state.h }) + (state.g ? T('guestsShort', { n: state.g }) : ''))),
+      el('div', { class: 'lines' }, r.lines.map(function (l) {
+        var tx = lineText(o, l, r);
+        return el('div', { class: 'line' }, el('span', { class: 'l' }, tx[0], el('small', null, tx[1])), el('span', { class: 'a' }, U.eur(l.amount)));
+      })),
+      el('div', { class: 'sums' },
+        el('div', null, el('span', null, T('fix')), el('strong', null, U.eur(r.fix))),
+        el('div', null, el('span', null, T('variable')), el('strong', null, U.eur(r.variable)))),
+      el('div', { class: 'total' },
+        el('span', { class: 't1' }, T('total')),
+        el('span', { class: 't2', 'aria-live': 'polite' }, U.eur(r.total)),
+        el('span', { class: 't3' }, T('perHunterTotal', { v: U.eur(r.perHunter) }) + (state.g ? T('guestsIncluded') : ''))),
+      r.chosenStay && el('p', { class: 'warn' }, T('selfBookNote', { name: r.chosenStay.stay.name })),
+      el('button', { type: 'button', class: 'btn', 'data-fid': 'enquire', disabled: r.overCapacity, onclick: openEnquiry }, T('enquire')),
+      el('p', { class: 'small' }, T('noPrepay')),
+      el('div', { class: 'needs' },
+        el('strong', null, T('needTitle')),
+        el('span', null, '✓ ' + T('needLicense')),
+        el('span', null, '✓ ' + T('needInsurance')),
+        el('span', null, '✓ ' + (state.weapon === 'eigen' ? T('needPass') : T('needNoPass'))),
+        o.art === 'Drückjagd' && el('span', null, '✓ ' + T('needShooting'))));
+  }
+
+  /* ---------- Anfrage per E-Mail-Programm ---------- */
+  var dialog = document.getElementById('enquiry');
+  function openEnquiry() { if (dialog.showModal) dialog.showModal(); else dialog.setAttribute('open', ''); }
+  document.getElementById('enq-cancel').addEventListener('click', function () { dialog.close(); });
+  document.getElementById('enq-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = e.target, r = P.calc(offer, state);
+    var lines = [
+      offer.title + ' (' + offer.land + ', ' + offer.region + ')',
+      r.termin.label + ' · ' + T('huntersN', { n: state.h }) + (state.g ? T('guestsShort', { n: state.g }) : ''),
+      ''
+    ].concat(r.lines.map(function (l) { var tx = lineText(offer, l, r); return '- ' + tx[0] + ' (' + tx[1] + '): ' + U.eur(l.amount); }))
+      .concat(['', T('total') + ': ' + U.eur(r.total), '', f.name.value, f.email.value, f.phone.value, '', f.msg.value]);
+    location.href = 'mailto:' + RR.CONFIG.contactEmail +
+      '?subject=' + encodeURIComponent(T('mailSubject', { t: offer.title })) +
+      '&body=' + encodeURIComponent(lines.join('\n'));
+    dialog.close();
+  });
+
+  /* ---------- Seite zeichnen ---------- */
+  function render() {
+    var active = document.activeElement && document.activeElement.getAttribute('data-fid');
+    if (!offer) { U.replace(content, el('p', { class: 'empty' }, T('notFound'))); return; }
+    document.title = 'Revierreise – ' + offer.title;
+    var r = P.calc(offer, state);
+    U.replace(content,
+      el('div', { class: 'detail-head' },
+        el('span', { class: 'where' }, U.term(lang, offer.land) + ' · ' + offer.region),
+        el('h1', null, offer.title + ' – ' + offer.days + ' ' + (lang === 'en' ? 'hunting days' : 'Jagdtage')),
+        el('div', { class: 'chip-list', style: 'align-items:center' },
+          el('span', { class: 'chip strong' }, U.term(lang, offer.art)),
+          offer.wild.map(function (w) { return el('span', { class: 'chip' }, U.term(lang, w)); }),
+          offer.instant ? el('span', { class: 'flag-ok', style: 'font-size:13px;font-weight:600;margin-left:6px' }, '● ' + T('available'))
+            : el('span', { class: 'flag-req', style: 'font-size:13px;font-weight:600;margin-left:6px' }, '● ' + T('onRequest')),
+          el('span', { style: 'font-size:13px;font-weight:600;color:var(--ink-2)' }, '✓ ' + T('verified')))),
+      el('div', { class: 'gallery' }, offer.gallery.map(function (g) { return el('img', { src: 'assets/img/' + g[0], alt: g[1] }); })),
+      el('div', { class: 'layout' }, config(offer, r), summary(offer, r)));
+    if (active) { var again = content.querySelector('[data-fid="' + active + '"]'); if (again && !again.disabled) again.focus(); }
+  }
+
+  function setLang(l) {
+    lang = l;
+    U.applyStatic(lang, setLang);
+    document.getElementById('back').setAttribute('href', 'index.html?lang=' + lang);
+    render();
+  }
+  setLang(lang);
+})();

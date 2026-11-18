@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revierreise – Jagd zusammenstellen</title>
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="lang-switch" role="group" data-i18n-aria="langLabel" aria-label="Sprache">
+      <button type="button" data-lang="de" aria-pressed="true">DE</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <a class="logo" href="index.html">Revierreise</a>
+    <nav class="main-nav" data-i18n-aria="navLabel" aria-label="Hauptnavigation">
+      <a href="index.html#suche" data-i18n="navFind">Jagden finden</a>
+      <a href="index.html#ablauf" data-i18n="navHow">So funktioniert's</a>
+      <a href="index.html#reviere" data-i18n="navPartners">Für Reviere</a>
+    </nav>
+    <a class="btn-ghost" href="#" data-i18n="login">Anmelden</a>
+  </div>
+</header>
+
+<main class="wrap detail" id="detail">
+  <a class="back" href="index.html" id="back">← <span data-i18n="back">Zurück zur Suche</span></a>
+  <div id="content"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="logo">Revierreise</span>
+    <span data-i18n="footer">Entwurf · alle Angebote und Preise sind Beispieldaten</span>
+    <a href="mailto:anfrage@example.com" data-i18n="listArea">Revier eintragen</a>
+  </div>
+</footer>
+
+<dialog id="enquiry" aria-labelledby="enq-title">
+  <form method="dialog" id="enq-form">
+    <h2 id="enq-title" data-i18n="formTitle">Unverbindliche Anfrage</h2>
+    <p data-i18n="formIntro"></p>
+    <div class="fld"><label for="e-name" data-i18n="fName">Name</label><input id="e-name" name="name" required autocomplete="name"></div>
+    <div class="fld"><label for="e-mail" data-i18n="fEmail">E-Mail</label><input id="e-mail" name="email" type="email" required autocomplete="email"></div>
+    <div class="fld"><label for="e-phone" data-i18n="fPhone">Telefon</label><input id="e-phone" name="phone" type="tel" autocomplete="tel"></div>
+    <div class="fld"><label for="e-msg" data-i18n="fMsg">Nachricht</label><textarea id="e-msg" name="msg"></textarea></div>
+    <p class="small" data-i18n="fHint" style="font-size:12px;color:var(--muted)"></p>
+    <div class="actions">
+      <button type="button" class="btn outline" id="enq-cancel" data-i18n="fCancel">Abbrechen</button>
+      <button type="submit" class="btn" data-i18n="fSend">Anfrage senden</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/pricing.js"></script>
+<script src="assets/js/detail.js"></script>
+</body>
+</html>

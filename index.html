@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revierreise – Jagdreisen in Osteuropa individuell zusammenstellen</title>
+<meta name="description" content="Jagdreisen nach Polen, Ungarn und Tschechien finden und Baustein für Baustein zusammenstellen – mit Trophäenklasse, Leihwaffe, Unterkunft und klarem Gesamtpreis.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="lang-switch" role="group" data-i18n-aria="langLabel" aria-label="Sprache">
+      <button type="button" data-lang="de" aria-pressed="true">DE</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <a class="logo" href="index.html">Revierreise</a>
+    <nav class="main-nav" data-i18n-aria="navLabel" aria-label="Hauptnavigation">
+      <a href="#suche" data-i18n="navFind">Jagden finden</a>
+      <a href="#ablauf" data-i18n="navHow">So funktioniert's</a>
+      <a href="#reviere" data-i18n="navPartners">Für Reviere</a>
+    </nav>
+    <a class="btn-ghost" href="#" data-i18n="login">Anmelden</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="suche">
+    <div class="wrap">
+      <p class="kicker" data-i18n="kicker">Auslandsjagd in Osteuropa · auf Deutsch</p>
+      <h1 data-i18n="h1">Deine Jagdreise – Baustein für Baustein, mit klarem Gesamtpreis.</h1>
+      <p class="lead" data-i18n="lead">Revier, Wildart und Jagdart wählen.</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <form class="search" role="search" data-i18n-aria="searchLabel" aria-label="Jagdreisen suchen" id="search" onsubmit="return false">
+      <div class="search-grid">
+        <div class="fld"><label for="f-from" data-i18n="from">Von</label><input id="f-from" name="from" type="date"></div>
+        <div class="fld"><label for="f-to" data-i18n="to">Bis</label><input id="f-to" name="to" type="date"></div>
+        <div class="fld"><label for="f-land" data-i18n="country">Land</label><select id="f-land" name="land"></select></div>
+        <div class="fld"><label for="f-wild" data-i18n="species">Wildart</label><select id="f-wild" name="wild"></select></div>
+        <div class="fld"><label for="f-art" data-i18n="method">Jagdart</label><select id="f-art" name="art"></select></div>
+        <div class="fld"><label for="f-h" data-i18n="hunters">Jäger</label><select id="f-h" name="h"></select></div>
+        <div class="fld"><label for="f-g" data-i18n="guests">Begleitpersonen</label><select id="f-g" name="g"></select></div>
+        <div class="fld"><label for="f-trophy" data-i18n="trophy">Trophäenklasse</label><select id="f-trophy" name="trophy"></select></div>
+      </div>
+      <div class="chips-row">
+        <label class="chk"><input type="checkbox" name="instant"> <span data-i18n="instant">Direkt verfügbar</span></label>
+        <label class="chk"><input type="checkbox" name="stay"> <span data-i18n="withStay">Mit Unterkunft</span></label>
+        <label class="chk"><input type="checkbox" name="travel"> <span data-i18n="withTravel">Mit Anreise</span></label>
+        <span class="spacer"></span>
+        <button type="reset" class="link-btn" data-i18n="reset">Filter zurücksetzen</button>
+      </div>
+    </form>
+  </div>
+
+  <section class="section wrap" aria-labelledby="h-rec">
+    <div class="section-head">
+      <h2 id="h-rec" data-i18n="recTitle">Unsere Empfehlungen</h2>
+      <p data-i18n="recSub">Von uns geprüft und für deutsche Jäger zusammengestellt.</p>
+    </div>
+    <div class="rec-grid" id="recs"></div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="h-all">
+    <div class="section-head">
+      <h2 id="h-all" data-i18n="allTitle">Alle Angebote</h2>
+      <p id="count" aria-live="polite"></p>
+    </div>
+    <div class="results" id="results"></div>
+  </section>
+
+  <section class="section wrap" id="ablauf" aria-labelledby="h-how">
+    <div class="section-head"><h2 id="h-how" data-i18n="navHow">So funktioniert's</h2></div>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><h3 data-i18n="s1t">Jagd finden</h3><p data-i18n="s1p"></p></div>
+      <div class="step"><span class="n">2</span><h3 data-i18n="s2t">Bausteine wählen</h3><p data-i18n="s2p"></p></div>
+      <div class="step"><span class="n">3</span><h3 data-i18n="s3t">Unverbindlich anfragen</h3><p data-i18n="s3p"></p></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="reviere">
+  <div class="wrap">
+    <span class="logo">Revierreise</span>
+    <span data-i18n="footer">Entwurf · alle Angebote und Preise sind Beispieldaten</span>
+    <a href="mailto:anfrage@example.com" data-i18n="listArea">Revier eintragen</a>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/search.js"></script>
+</body>
+</html>
