@@ -3,7 +3,7 @@ window.RR = window.RR || {};
 
 RR.I18N = {
   de: {
-    navLabel: 'Hauptnavigation', navFind: 'Jagden finden', navHow: "So funktioniert's", navPartners: 'Für Reviere', login: 'Anmelden', langLabel: 'Sprache',
+    navLabel: 'Hauptnavigation', navFind: 'Jagden finden', navHow: "So funktioniert's", navPartners: 'Für Reviere', navNews: 'News', login: 'Anmelden', langLabel: 'Sprache',
     kicker: 'Auslandsjagd in Osteuropa · auf Deutsch',
     h1: 'Deine Jagdreise – Baustein für Baustein, mit klarem Gesamtpreis.',
     lead: 'Revier, Wildart und Jagdart wählen. Unterkunft, Anreise, Leihwaffe oder Präparator nur dazunehmen, wenn du sie wirklich brauchst.',
@@ -74,10 +74,14 @@ RR.I18N = {
     galPrev: 'Vorheriges Bild', galNext: 'Nächstes Bild', galShow: 'Bild {n} zeigen',
     rvCount: '{n} Bewertungen', rvSample: 'Beispieldaten im Entwurf', rvNote: 'Nur Jäger, die über Revierreise gebucht und gejagt haben, können eine Bewertung abgeben.',
     rvOverall: 'Gesamtbewertung', rvMention: 'Jäger erwähnen', rvMore: 'Mehr anzeigen', rvLess: 'Weniger anzeigen',
-    rvWeek1: 'vor 1 Woche', rvWeeks: 'vor {n} Wochen', rvMonth1: 'vor 1 Monat', rvMonths: 'vor {n} Monaten', knowTitle: 'Was du wissen solltest'
+    rvWeek1: 'vor 1 Woche', rvWeeks: 'vor {n} Wochen', rvMonth1: 'vor 1 Monat', rvMonths: 'vor {n} Monaten', knowTitle: 'Was du wissen solltest',
+    newsHomeTitle: 'Aktuelles aus der Jagd', newsHomeAll: 'Alle News →', newsKicker: 'Jagd-News', newsH1a: 'Gesetze, Trends', newsH1b: '& Ausrüstung – kurz erklärt.', newsLead: 'Was sich für Jäger ändert – und was das für deine nächste Jagdreise heißt.',
+    newsFilter: 'Themen', newsMin: '{n} Min. Lesezeit', newsRead: 'Weiterlesen', newsSources: 'Quellen', newsCta: 'Passende Jagd finden', close: 'Schließen',
+    newsUpdated: 'Stand: {d}', newsNote: 'Zusammenfassung in eigenen Worten, keine Rechtsberatung.',
+    newsDisclaimer: 'Zusammenfassungen in eigenen Worten mit Quellen – keine Rechtsberatung. Verbindlich sind die jeweiligen Gesetze und Behörden.'
   },
   en: {
-    navLabel: 'Main navigation', navFind: 'Find hunts', navHow: 'How it works', navPartners: 'For outfitters', login: 'Sign in', langLabel: 'Language',
+    navLabel: 'Main navigation', navFind: 'Find hunts', navHow: 'How it works', navPartners: 'For outfitters', navNews: 'News', login: 'Sign in', langLabel: 'Language',
     kicker: 'Hunting trips in Eastern Europe',
     h1: 'Your hunting trip – built step by step, with a clear total price.',
     lead: 'Pick the area, species and hunting method. Add accommodation, travel, a rental rifle or taxidermy only if you really need them.',
@@ -148,7 +152,11 @@ RR.I18N = {
     galPrev: 'Previous photo', galNext: 'Next photo', galShow: 'Show photo {n}',
     rvCount: '{n} reviews', rvSample: 'Sample data in this draft', rvNote: 'Only hunters who booked and hunted via Revierreise can leave a review.',
     rvOverall: 'Overall rating', rvMention: 'Hunters mention', rvMore: 'Show more', rvLess: 'Show less',
-    rvWeek1: '1 week ago', rvWeeks: '{n} weeks ago', rvMonth1: '1 month ago', rvMonths: '{n} months ago', knowTitle: 'Good to know'
+    rvWeek1: '1 week ago', rvWeeks: '{n} weeks ago', rvMonth1: '1 month ago', rvMonths: '{n} months ago', knowTitle: 'Good to know',
+    newsHomeTitle: 'Latest hunting news', newsHomeAll: 'All news →', newsKicker: 'Hunting news', newsH1a: 'Laws, trends', newsH1b: '& gear – explained briefly.', newsLead: 'What is changing for hunters – and what it means for your next hunting trip.',
+    newsFilter: 'Topics', newsMin: '{n} min read', newsRead: 'Read more', newsSources: 'Sources', newsCta: 'Find a matching hunt', close: 'Close',
+    newsUpdated: 'Updated: {d}', newsNote: 'Summary in our own words, not legal advice.',
+    newsDisclaimer: 'Summaries in our own words with sources – not legal advice. The respective laws and authorities are binding.'
   }
 };
 

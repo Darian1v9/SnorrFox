@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <meta name="theme-color" content="#1E3527">
-<script src="assets/js/theme.js?v=20261126e"></script>
-<link rel="stylesheet" href="assets/css/styles.css?v=20261126e">
+<script src="assets/js/theme.js?v=20261126f"></script>
+<link rel="stylesheet" href="assets/css/styles.css?v=20261126f">
 </head>
 <body class="home">
 
@@ -24,6 +24,7 @@
     <a class="logo" href="index.html">Revierreise</a>
     <nav class="main-nav" data-i18n-aria="navLabel" aria-label="Hauptnavigation">
       <a href="#suche" data-i18n="navFind">Jagden finden</a>
+      <a href="news.html" data-i18n="navNews">News</a>
       <a href="#ablauf" data-i18n="navHow">So funktioniert's</a>
       <a href="#reviere" data-i18n="navPartners">Für Reviere</a>
     </nav>
@@ -105,6 +106,14 @@
       <div class="step reveal"><span class="n">3</span><h3 data-i18n="s3t">Unverbindlich anfragen</h3><p data-i18n="s3p"></p></div>
     </div>
   </section>
+  <section class="section wrap" aria-labelledby="h-news">
+    <div class="section-head reveal">
+      <h2 id="h-news" data-i18n="newsHomeTitle">Aktuelles aus der Jagd</h2>
+      <a href="news.html" class="news-all" data-i18n="newsHomeAll">Alle News →</a>
+    </div>
+    <div class="news-teasers stagger" id="newsTeasers"></div>
+  </section>
+
   <section class="band" aria-labelledby="h-band">
     <img class="band-bg" src="assets/img/foto/hero-rothirsch-1600.jpg" srcset="assets/img/foto/hero-rothirsch-800.jpg 800w, assets/img/foto/hero-rothirsch-1600.jpg 1600w" sizes="100vw" alt="" loading="lazy">
     <div class="wrap band-inner reveal">
@@ -119,14 +128,16 @@
   <div class="wrap">
     <span class="logo">Revierreise</span>
     <span data-i18n="footer">Entwurf · alle Angebote und Preise sind Beispieldaten</span>
+    <a href="news.html" data-i18n="navNews">News</a>
     <a href="mailto:anfrage@example.com" data-i18n="listArea">Revier eintragen</a>
   </div>
 </footer>
 
-<script src="assets/js/data.js?v=20261126e"></script>
+<script src="assets/js/data.js?v=20261126f"></script>
 <script src="assets/js/i18n.js"></script>
-<script src="assets/js/icons.js?v=20261126e"></script>
-<script src="assets/js/motion.js?v=20261126e"></script>
-<script src="assets/js/search.js?v=20261126e"></script>
+<script src="assets/js/icons.js?v=20261126f"></script>
+<script src="assets/js/motion.js?v=20261126f"></script>
+<script src="assets/js/news-data.js?v=20261126f"></script>
+<script src="assets/js/search.js?v=20261126f"></script>
 </body>
 </html>

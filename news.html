@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revierreise – Jagd-News</title>
+<meta name="description" content="Aktuelle Jagdgesetze, Trends, Waffen und Ausrüstung – kurz erklärt für Jäger, die im Ausland jagen.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#1E3527">
+<script src="assets/js/theme.js?v=20261126f"></script>
+<link rel="stylesheet" href="assets/css/styles.css?v=20261126f">
+</head>
+<body class="home news-page">
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="lang-switch" role="group" data-i18n-aria="langLabel" aria-label="Sprache">
+      <button type="button" data-lang="de" aria-pressed="true">DE</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <a class="logo" href="index.html">Revierreise</a>
+    <nav class="main-nav" data-i18n-aria="navLabel" aria-label="Hauptnavigation">
+      <a href="index.html#suche" data-i18n="navFind">Jagden finden</a>
+      <a href="news.html" data-i18n="navNews" aria-current="page">News</a>
+      <a href="index.html#ablauf" data-i18n="navHow">So funktioniert's</a>
+      <a href="index.html#reviere" data-i18n="navPartners">Für Reviere</a>
+    </nav>
+    <a class="btn-ghost" href="#" data-i18n="login">Anmelden</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero has-photo news-hero">
+    <img class="hero-bg" src="assets/img/foto/rothirsch-portrait-1600.jpg" srcset="assets/img/foto/rothirsch-portrait-800.jpg 800w, assets/img/foto/rothirsch-portrait-1600.jpg 1600w" sizes="100vw" alt="" fetchpriority="high">
+    <div class="wrap">
+      <p class="kicker hero-rise" data-i18n="newsKicker">Jagd-News</p>
+      <h1 class="hero-title">
+        <span class="line"><span data-i18n="newsH1a">Gesetze, Trends</span></span>
+        <span class="line"><span data-i18n="newsH1b">&amp; Ausrüstung – kurz erklärt.</span></span>
+      </h1>
+      <p class="lead hero-rise d2" data-i18n="newsLead">Was sich für Jäger ändert – und was das für deine nächste Jagdreise heißt.</p>
+    </div>
+  </section>
+
+  <div class="wrap news-wrap" id="content">
+    <div class="news-bar reveal">
+      <div class="news-filters" id="newsFilters" role="group" data-i18n-aria="newsFilter" aria-label="Themen"></div>
+      <span class="news-updated" id="newsUpdated"></span>
+    </div>
+    <div id="newsLead" class="news-lead"></div>
+    <div id="newsGrid" class="news-grid stagger"></div>
+    <p class="news-disclaimer" data-i18n="newsDisclaimer">Zusammenfassungen in eigenen Worten mit Quellen – keine Rechtsberatung. Verbindlich sind die jeweiligen Gesetze und Behörden.</p>
+  </div>
+</main>
+
+<dialog class="article-dialog" id="article" aria-labelledby="articleBody">
+  <div id="articleBody"></div>
+</dialog>
+
+<footer class="site-footer" id="reviere">
+  <div class="wrap">
+    <span class="logo">Revierreise</span>
+    <span data-i18n="footer">Entwurf · alle Angebote und Preise sind Beispieldaten</span>
+    <a href="news.html" data-i18n="navNews">News</a>
+    <a href="mailto:anfrage@example.com" data-i18n="listArea">Revier eintragen</a>
+  </div>
+</footer>
+
+<script src="assets/js/data.js?v=20261126f"></script>
+<script src="assets/js/i18n.js?v=20261126f"></script>
+<script src="assets/js/icons.js?v=20261126f"></script>
+<script src="assets/js/motion.js?v=20261126f"></script>
+<script src="assets/js/news-data.js?v=20261126f"></script>
+<script src="assets/js/news.js?v=20261126f"></script>
+</body>
+</html>
