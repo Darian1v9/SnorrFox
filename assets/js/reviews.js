@@ -147,7 +147,7 @@ RR.reviews = (function () {
         var t = U.pick(k, lang);
         return el('div', { class: 'know-item' }, RR.icon(k.icon, 26), el('strong', null, t[0]), el('p', null, t[1]));
       })));
-    if (!data) return el('section', { class: 'reviews reveal' }, know);
+    if (!data) return null;
 
     var nf = function (v) { return v.toFixed(lang === 'en' ? 2 : 2).replace('.', lang === 'en' ? '.' : ','); };
     var total = data.dist.reduce(function (a, b) { return a + b; }, 0);
@@ -196,8 +196,7 @@ RR.reviews = (function () {
       el('h3', { class: 'rv-sub' }, T('rvMention')),
       scroller,
       el('div', { class: 'rv-grid' }, cards),
-      el('hr', { class: 'rv-rule' }),
-      know);
+      null);
     /* "Mehr anzeigen" nur zeigen, wenn der Text wirklich abgeschnitten ist */
     requestAnimationFrame(function () {
       [].forEach.call(sec.querySelectorAll('.rv-card'), function (c) {

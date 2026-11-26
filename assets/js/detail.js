@@ -298,7 +298,7 @@
     if (!offer) { U.replace(content, el('p', { class: 'empty' }, T('notFound'))); return; }
     document.title = 'Revierreise – ' + offer.title;
     var r = P.calc(offer, state);
-    if (cache.lang !== lang) { if (cache.gallery) cache.gallery._stop(); cache.lang = lang; cache.gallery = gallery(offer); cache.map = mapSection(offer); cache.reviews = RR.reviews ? RR.reviews.section(offer, lang, T) : null; }
+    if (cache.lang !== lang) { if (cache.gallery) cache.gallery._stop(); cache.lang = lang; cache.gallery = gallery(offer); cache.map = mapSection(offer); cache.reviews = RR.reviews ? RR.reviews.section(offer, lang, T) : null; cache.travel = RR.travel ? RR.travel.section(offer, lang, T) : null; }
     U.replace(content,
       el('div', { class: 'detail-head' + intro },
         el('span', { class: 'where' }, RR.flag(offer.land, 20), U.term(lang, offer.land) + ' · ' + offer.region),
@@ -312,6 +312,7 @@
       cache.gallery,
       el('div', { class: 'layout' + intro }, config(offer, r), summary(offer, r)),
       cache.map,
+      cache.travel,
       cache.reviews);
     if (cache.mapApi) requestAnimationFrame(cache.mapApi.refresh);
     var totalEl = content.querySelector('.total .t2');

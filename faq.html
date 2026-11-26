@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revierreise – Häufige Fragen</title>
+<meta name="description" content="Häufige Fragen zu Buchung, Preisen, Trophäen, Waffen, Papieren und Reisen zur Auslandsjagd.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#1E3527">
+<script src="assets/js/theme.js?v=20261126h"></script>
+<link rel="stylesheet" href="assets/css/styles.css?v=20261126h">
+</head>
+<body class="home news-page faq-page">
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="lang-switch" role="group" data-i18n-aria="langLabel" aria-label="Sprache">
+      <button type="button" data-lang="de" aria-pressed="true">DE</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <a class="logo" href="index.html">Revierreise</a>
+    <nav class="main-nav" data-i18n-aria="navLabel" aria-label="Hauptnavigation">
+      <a href="index.html#suche" data-i18n="navFind">Jagden finden</a>
+      <a href="news.html" data-i18n="navNews">News</a>
+      <a href="faq.html" data-i18n="navFaq" aria-current="page">FAQ</a>
+      <a href="index.html#ablauf" data-i18n="navHow">So funktioniert's</a>
+      <a href="index.html#reviere" data-i18n="navPartners">Für Reviere</a>
+    </nav>
+    <a class="btn-ghost" href="#" data-i18n="login">Anmelden</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero has-photo news-hero faq-hero">
+    <img class="hero-bg" src="assets/img/foto/rehbock-heide-1600.jpg" srcset="assets/img/foto/rehbock-heide-800.jpg 800w, assets/img/foto/rehbock-heide-1600.jpg 1600w" sizes="100vw" alt="" fetchpriority="high">
+    <div class="wrap">
+      <p class="kicker hero-rise" data-i18n="faqKicker">Hilfe &amp; FAQ</p>
+      <h1 class="hero-title">
+        <span class="line"><span data-i18n="faqH1a">Fragen zur Jagdreise?</span></span>
+        <span class="line"><span data-i18n="faqH1b">Hier sind die Antworten.</span></span>
+      </h1>
+      <div class="faq-search hero-rise d2">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="faqSearch" type="search" data-i18n-aria="faqSearchLabel" aria-label="Fragen durchsuchen" placeholder="Frage suchen …" autocomplete="off">
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap news-wrap faq-wrap" id="content">
+    <div class="news-bar reveal">
+      <div class="news-filters" id="faqCats" role="group" data-i18n-aria="newsFilter" aria-label="Themen"></div>
+      <div class="faq-tools"><span class="news-updated" id="faqCount"></span><button type="button" class="link-btn" id="faqToggle" data-i18n="faqToggle">Alle auf-/zuklappen</button></div>
+    </div>
+    <div id="faqList" class="faq-list"></div>
+    <div class="faq-cta reveal">
+      <div>
+        <h2 data-i18n="faqCtaTitle">Deine Frage war nicht dabei?</h2>
+        <p data-i18n="faqCtaText">Schreib uns – wir antworten auf Deutsch und in der Regel innerhalb eines Werktags.</p>
+      </div>
+      <a class="btn btn-lg" data-magnetic href="mailto:anfrage@example.com" data-i18n="faqCtaBtn">Frage stellen</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer" id="reviere">
+  <div class="wrap">
+    <span class="logo">Revierreise</span>
+    <span data-i18n="footer">Entwurf · alle Angebote und Preise sind Beispieldaten</span>
+    <a href="news.html" data-i18n="navNews">News</a>
+    <a href="faq.html" data-i18n="navFaq">FAQ</a>
+    <a href="mailto:anfrage@example.com" data-i18n="listArea">Revier eintragen</a>
+  </div>
+</footer>
+
+<script src="assets/js/data.js?v=20261126h"></script>
+<script src="assets/js/i18n.js?v=20261126h"></script>
+<script src="assets/js/icons.js?v=20261126h"></script>
+<script src="assets/js/motion.js?v=20261126h"></script>
+<script src="assets/js/faq-data.js?v=20261126h"></script>
+<script src="assets/js/faq.js?v=20261126h"></script>
+</body>
+</html>
