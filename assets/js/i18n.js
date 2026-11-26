@@ -8,6 +8,9 @@ RR.I18N = {
     h1: 'Deine Jagdreise – Baustein für Baustein, mit klarem Gesamtpreis.',
     lead: 'Revier, Wildart und Jagdart wählen. Unterkunft, Anreise, Leihwaffe oder Präparator nur dazunehmen, wenn du sie wirklich brauchst.',
     searchLabel: 'Jagdreisen suchen',
+    h1a: 'Deine Jagdreise –', h1b: 'Baustein für Baustein,',
+    h1words: ['mit klarem Gesamtpreis.', 'ohne Pauschalzwang.', 'mit Leihwaffe vor Ort.', 'auf Deutsch betreut.'],
+    statOffers: 'Jagdangebote', statCountries: 'Länder in Osteuropa', statSpecies: 'Wildarten', statPrepay: 'Vorauszahlung an uns',
     from: 'Von', to: 'Bis', country: 'Land', species: 'Wildart', method: 'Jagdart', hunters: 'Jäger', guests: 'Begleitpersonen', trophy: 'Trophäenklasse',
     allCountries: 'Alle Länder', allSpecies: 'Alle Wildarten', allMethods: 'Alle Jagdarten', allClasses: 'Alle Klassen',
     noTrophy: 'Ohne Trophäe (Kahlwild, Sauen)', bronze: 'ab Bronze (CIC)', silver: 'ab Silber (CIC)', gold: 'Gold (CIC)',
@@ -25,6 +28,8 @@ RR.I18N = {
     s1t: 'Jagd finden', s1p: 'Nach Zeitraum, Land, Wildart und Jagdart filtern – Drückjagden haben ihre eigene Kategorie.',
     s2t: 'Bausteine wählen', s2p: 'Trophäenklasse, eigene Waffe oder Leihwaffe, Jagdführung, Unterkunft, Anreise, Präparator – der Preis rechnet live mit.',
     s3t: 'Unverbindlich anfragen', s3p: 'Wir klären alles mit dem Revier. Du buchst und bezahlst direkt beim Anbieter – keine Vorauszahlung an uns.',
+    speciesTitle: 'Wildarten entdecken', speciesSub: 'Wähle deine Wildart – wir zeigen dir passende Reviere.', speciesN: '{n} Angebote', species1: '1 Angebot', speciesNone: 'bald verfügbar',
+    bandTitle: 'Die Drückjagdsaison wartet nicht.', bandText: 'Die besten Termine in Polen und Ungarn sind oft Monate vorher vergeben. Stell dir jetzt deine Jagd zusammen – unverbindlich und ohne Vorauszahlung.', bandCta: 'Jetzt Jagd finden', allPhotos: 'Alle Fotos',
     footer: 'Entwurf · alle Angebote und Preise sind Beispieldaten', listArea: 'Revier eintragen',
 
     back: 'Zurück zur Suche', verified: 'Geprüftes Revier', recBox: 'Unsere Empfehlung', applyRec: 'Empfehlung übernehmen', resetAll: 'Zurücksetzen',
@@ -35,7 +40,10 @@ RR.I18N = {
     freeOf: '{n} Plätze frei', soldOut: 'Ausgebucht · Warteliste möglich', perHunterShort: 'p. J.',
     notEnough: 'Für den gewählten Termin sind nur noch {n} Plätze frei. Bitte weniger Jäger oder einen anderen Termin wählen.',
     stepTrophy: '{s} – welche Klasse planst du ein?',
-    stepTrophyHint: 'Abrechnung nach {note} laut Preisliste des Reviers, nur bei Erlegung. Wir rechnen mit 1 Stück je Jäger, damit du realistisch planen kannst.',
+    stepTrophyHint: 'Abrechnung nach {note} laut Preisliste des Reviers – nur bei Erlegung. Wir rechnen mit 1 Stück je Jäger. Darunter wählst du, was mit der Trophäe passieren soll.',
+    range: '{a}–{b}', approxPlus: '+ ca. {v}', approxShort: 'ca.',
+    prepFor: '+ Trophäe & Präparat für deinen {s}', prepHint: 'Nur fällig, wenn du erlegst. Schätzung je Stück, mit üblicher Spanne.',
+    fixHead: 'Fest gebucht', varHead: 'Nur bei Erlegung', totalRange: 'Spanne: {a} bis {b} – je nach Strecke und Trophäe',
     rentalNA: 'Bei diesem Revier nicht möglich', stepWeapon: 'Waffe', stepWeaponHint: 'Mit Leihwaffe brauchst du keinen Feuerwaffenpass und sparst dir den Papierkram.',
     stepGuide: 'Geführte Jagd', stepGuideHint: 'Ein eigener Jagdführer lohnt sich vor allem bei der ersten Jagd im Ausland.',
     stepLodging: 'Unterkunft', stepLodgingHint: 'Gilt für alle {n} Personen deiner Gruppe. Entweder direkt über das Revier oder in einer Unterkunft aus unserer Auswahl in der Nähe.',
@@ -66,6 +74,9 @@ RR.I18N = {
     h1: 'Your hunting trip – built step by step, with a clear total price.',
     lead: 'Pick the area, species and hunting method. Add accommodation, travel, a rental rifle or taxidermy only if you really need them.',
     searchLabel: 'Search hunting trips',
+    h1a: 'Your hunting trip –', h1b: 'built step by step,',
+    h1words: ['with a clear total price.', 'no package deals.', 'with rental rifles on site.', 'with personal support.'],
+    statOffers: 'Hunting offers', statCountries: 'Countries in Eastern Europe', statSpecies: 'Game species', statPrepay: 'Prepayment to us',
     from: 'From', to: 'To', country: 'Country', species: 'Species', method: 'Hunting method', hunters: 'Hunters', guests: 'Non-hunting guests', trophy: 'Trophy class',
     allCountries: 'All countries', allSpecies: 'All species', allMethods: 'All methods', allClasses: 'All classes',
     noTrophy: 'No trophy (antlerless, boar)', bronze: 'Bronze or better (CIC)', silver: 'Silver or better (CIC)', gold: 'Gold (CIC)',
@@ -83,6 +94,8 @@ RR.I18N = {
     s1t: 'Find a hunt', s1p: 'Filter by dates, country, species and method – driven hunts have their own category.',
     s2t: 'Choose your options', s2p: 'Trophy class, own or rental rifle, guide, accommodation, travel, taxidermy – the price updates live.',
     s3t: 'Send a free enquiry', s3p: 'We sort everything out with the outfitter. You book and pay the outfitter directly – no prepayment to us.',
+    speciesTitle: 'Explore by species', speciesSub: 'Pick your game – we show you matching hunting areas.', speciesN: '{n} hunts', species1: '1 hunt', speciesNone: 'coming soon',
+    bandTitle: "Driven-hunt season won't wait.", bandText: 'The best dates in Poland and Hungary are often taken months ahead. Put your hunt together now – free enquiry, no prepayment.', bandCta: 'Find your hunt', allPhotos: 'All photos',
     footer: 'Draft · all hunts and prices are sample data', listArea: 'List your hunting area',
 
     back: 'Back to search', verified: 'Verified area', recBox: 'Our recommendation', applyRec: 'Use recommendation', resetAll: 'Reset',
@@ -93,7 +106,10 @@ RR.I18N = {
     freeOf: '{n} places left', soldOut: 'Sold out · waiting list possible', perHunterShort: 'per hunter',
     notEnough: 'Only {n} places are left on this date. Please choose fewer hunters or another date.',
     stepTrophy: '{s} – which class do you plan for?',
-    stepTrophyHint: 'Charged by {note} according to the area price list, only if shot. We assume 1 animal per hunter so you can plan realistically.',
+    stepTrophyHint: 'Charged by {note} according to the area price list – only if shot. We assume 1 animal per hunter. Below you choose what happens with the trophy.',
+    range: '{a}–{b}', approxPlus: '+ approx. {v}', approxShort: 'approx.',
+    prepFor: '+ Trophy & taxidermy for your {s}', prepHint: 'Only due if you shoot. Estimate per animal, with the usual range.',
+    fixHead: 'Booked', varHead: 'Only if shot', totalRange: 'Range: {a} to {b} – depending on bag and trophy',
     rentalNA: 'Not available in this area', stepWeapon: 'Rifle', stepWeaponHint: 'With a rental rifle you need no firearms pass and skip the paperwork.',
     stepGuide: 'Guided hunt', stepGuideHint: 'A personal guide is especially worth it on your first hunt abroad.',
     stepLodging: 'Accommodation', stepLodgingHint: 'Applies to all {n} people in your group. Either through the hunting area or a place from our selection nearby.',
@@ -123,7 +139,7 @@ RR.I18N = {
 /* Englische Anzeigenamen für Länder, Wildarten und Jagdarten (Datenwerte bleiben deutsch) */
 RR.TERMS_EN = {
   'Polen': 'Poland', 'Ungarn': 'Hungary', 'Tschechien': 'Czech Republic',
-  'Schwarzwild': 'Wild boar', 'Rotwild': 'Red deer', 'Damwild': 'Fallow deer', 'Rehwild': 'Roe deer', 'Niederwild': 'Small game',
+  'Schwarzwild': 'Wild boar', 'Rotwild': 'Red deer', 'Damwild': 'Fallow deer', 'Rehwild': 'Roe deer', 'Niederwild': 'Small game', 'Fuchs': 'Fox',
   'Drückjagd': 'Driven hunt', 'Treibjagd': 'Small-game drive', 'Pirschjagd': 'Stalking', 'Ansitzjagd': 'Stand hunting'
 };
 
@@ -171,6 +187,16 @@ RR.util = {
   replace: function (node) {
     while (node.firstChild) node.removeChild(node.firstChild);
     for (var i = 1; i < arguments.length; i++) RR.util.append(node, arguments[i]);
+  },
+  /* Foto mit zwei Größen (800/1600 px), der Browser lädt die passende */
+  photo: function (name, alt, sizes, attrs) {
+    var base = RR.PHOTO_DIR + name;
+    return RR.util.el('img', Object.assign({
+      src: base + '-800.jpg',
+      srcset: base + '-800.jpg 800w, ' + base + '-1600.jpg 1600w',
+      sizes: sizes || '(max-width: 700px) 100vw, 50vw',
+      alt: alt, loading: 'lazy', decoding: 'async'
+    }, attrs || {}));
   },
   term: function (lang, word) { return lang === 'en' ? (RR.TERMS_EN[word] || word) : word; },
   /* Statische Texte mit data-i18n="key" füllen, Sprachumschalter verdrahten */

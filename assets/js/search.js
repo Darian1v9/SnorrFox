@@ -62,7 +62,26 @@
   }
 
   function link(o, f) { return 'angebot.html?id=' + encodeURIComponent(o.id) + '&h=' + (Number(f.h) || 1) + '&g=' + (Number(f.g) || 0) + '&lang=' + lang; }
-  function img(o) { return el('div', { class: 'media' }, el('img', { src: 'assets/img/' + o.img, alt: o.alt, loading: 'lazy' })); }
+  function img(o, sizes) { return el('div', { class: 'media' }, U.photo(o.img, o.alt, sizes)); }
+
+  function speciesTiles(f) {
+    return RR.SPECIES.map(function (sp) {
+      var n = RR.OFFERS.filter(function (o) { return o.wild.indexOf(sp.wild) > -1; }).length;
+      var active = f.wild === sp.wild;
+      return el('button', {
+        type: 'button', class: 'species-tile reveal', 'aria-pressed': String(active),
+        onclick: function () {
+          form.wild.value = active ? '' : sp.wild;
+          render();
+          if (!active) document.getElementById('h-all').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      },
+        U.photo(sp.img, sp.alt, '(max-width: 700px) 50vw, 240px'),
+        el('span', { class: 'cap' },
+          el('span', { class: 'name' }, RR.icon(sp.wild, 22), U.term(lang, sp.wild)),
+          el('span', { class: 'cnt' }, n === 0 ? T('speciesNone') : n === 1 ? T('species1') : T('speciesN', { n: n }))));
+    });
+  }
 
   function trophyText(o) {
     var parts = [];
@@ -72,9 +91,9 @@
   }
 
   function recCard(o, f) {
-    var media = img(o);
+    var media = img(o, '(max-width: 700px) 100vw, 400px');
     media.appendChild(el('span', { class: 'badge' }, o.recommended.why));
-    return el('a', { class: 'rec-card', href: link(o, f) }, media,
+    return el('a', { class: 'rec-card tilt reveal', href: link(o, f) }, el('span', { class: 'spot', 'aria-hidden': 'true' }), media,
       el('div', { class: 'rec-body' },
         el('span', { class: 'where' }, U.term(lang, o.land) + ' · ' + o.region + ' · ' + U.term(lang, o.art)),
         el('h3', null, o.title),
@@ -87,13 +106,13 @@
   function offerRow(o, f) {
     var h = Number(f.h) || 1, g = Number(f.g) || 0;
     var hasTravel = o.travel.some(function (t) { return t.price > 0; });
-    return el('article', { class: 'offer' }, img(o),
+    return el('article', { class: 'offer reveal' }, img(o, '(max-width: 700px) 100vw, 300px'),
       el('div', { class: 'offer-body' },
         el('span', { class: 'where' }, U.term(lang, o.land) + ' · ' + o.region),
         el('h3', null, o.title),
         el('span', { class: 'meta' }, U.term(lang, o.art) + ' · ' + o.days + ' ' + (lang === 'en' ? 'hunting days' : 'Jagdtage') + ' · ' + T('season') + ' ' + o.saison + ' · ' + T('upTo', { n: o.capacity })),
         el('span', { class: 'meta' }, el('strong', null, T('trophyLbl')), ' ' + trophyText(o)),
-        el('div', { class: 'chip-list' }, o.wild.map(function (w) { return el('span', { class: 'chip' }, U.term(lang, w)); })),
+        el('div', { class: 'chip-list' }, o.wild.map(function (w) { return el('span', { class: 'chip species-chip', title: U.term(lang, w) }, RR.icon(w), U.term(lang, w)); })),
         el('div', { class: 'flags' },
           o.instant ? el('span', { class: 'flag-ok' }, '● ' + T('available')) : el('span', { class: 'flag-req' }, '● ' + T('onRequest')),
           o.rental && el('span', null, '✓ ' + T('rentalOk')),
@@ -107,11 +126,35 @@
           el('span', { class: 'price-lbl', style: 'color:var(--ink-2);margin-top:6px' }, T('typical', { v: o.est })),
           (h > 1 || g > 0) && el('span', { class: 'group-price' }, T('groupPrice', {
             h: h, g: g ? T('guestsShort', { n: g }) : '', v: U.eur(o.base * h + RR.SHARED.guestFee * g) }))),
-        el('a', { class: 'btn', href: link(o, f) }, T('configure'))));
+        el('a', { class: 'btn', href: link(o, f), 'data-magnetic': '' }, T('configure'))));
+  }
+
+  function marquee() {
+    var items = [];
+    RR.SPECIES.forEach(function (sp) { items.push(el('span', { class: 'mq-item' }, RR.icon(sp.wild, 22), U.term(lang, sp.wild))); });
+    uniq('art').forEach(function (a) { items.push(el('span', { class: 'mq-item' }, U.term(lang, a))); });
+    uniq('land').forEach(function (l) { items.push(el('span', { class: 'mq-item' }, U.term(lang, l))); });
+    var half = function () { return el('span', { class: 'mq-half' }, items.map(function (n) { return n.cloneNode(true); })); };
+    U.replace(document.getElementById('marquee'), half(), half());
+  }
+
+  function stats() {
+    var data = [
+      [RR.OFFERS.length, '', T('statOffers')],
+      [uniq('land').length, '', T('statCountries')],
+      [uniq('wild').length, '', T('statSpecies')],
+      [0, ' €', T('statPrepay')]
+    ];
+    U.replace(document.getElementById('stats'), data.map(function (d) {
+      return el('div', { class: 'stat reveal' },
+        el('span', { class: 'stat-num', 'data-target': String(d[0]), 'data-suffix': d[1] }, '0' + d[1]),
+        el('span', { class: 'stat-label' }, d[2]));
+    }));
   }
 
   function render() {
     var f = readForm();
+    U.replace(document.getElementById('species'), speciesTiles(f));
     U.replace(document.getElementById('recs'), RR.OFFERS.filter(function (o) { return o.recommended; }).map(function (o) { return recCard(o, f); }));
 
     var res = RR.filterOffers(f);
@@ -122,12 +165,18 @@
         el('p', null, el('strong', null, T('emptyTitle'))),
         el('p', null, T('emptyText')),
         el('button', { type: 'button', class: 'btn outline', onclick: function () { form.reset(); } }, T('reset'))));
+      if (RR.motion) RR.motion.scan();
       return;
     }
     U.replace(list, res.map(function (o) { return offerRow(o, f); }));
+    if (RR.motion) RR.motion.scan();
   }
 
-  function setLang(l) { lang = l; U.applyStatic(lang, setLang); fillSelects(); render(); }
+  function setLang(l) {
+    lang = l; U.applyStatic(lang, setLang); fillSelects();
+    if (RR.motion) RR.motion.rotator(document.getElementById('rotator'), T('h1words'));
+    marquee(); stats(); render();
+  }
 
   form.addEventListener('input', render);
   form.addEventListener('change', render);

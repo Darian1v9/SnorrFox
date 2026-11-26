@@ -31,8 +31,10 @@ assets/js/i18n.js       Texte DE/EN + kleine Hilfsfunktionen
 assets/js/pricing.js    Preisberechnung (reine Logik, ohne Oberfläche)
 assets/js/search.js     Startseite
 assets/js/detail.js     Angebotsseite
-assets/img/             Illustrationen (Platzhalter für echte Fotos)
+assets/img/foto/        Fotos in zwei Größen (…-800.jpg und …-1600.jpg)
 ```
+
+Neue Fotos: Bild als `name-800.jpg` und `name-1600.jpg` (Breite in Pixel) nach `assets/img/foto/` legen und in `data.js` beim Angebot unter `img`/`gallery` den Namen eintragen.
 
 Inhalte und Logik sind bewusst getrennt: Für ein neues Angebot oder andere Preise muss nur `assets/js/data.js` angepasst werden.
 
@@ -55,7 +57,7 @@ python3 -m http.server 8000
 
 - [ ] Eigene E-Mail-Adresse in `assets/js/data.js` (`RR.CONFIG.contactEmail`) und in den Fußzeilen eintragen
 - [ ] Echte Angebote, Termine und Preise der Partner-Reviere in `data.js` eintragen
-- [ ] Echte Fotos (von den Revieren, mit Nutzungsrecht) statt Illustrationen
+- [ ] Nutzungsrechte der Fotos prüfen (z. B. Unsplash-Lizenz) und später durch Fotos der Partner-Reviere ergänzen
 - [ ] Echte Unterkünfte mit Buchungslinks; später Live-Preise über die Booking.com Demand API (erfordert Partnervertrag)
 - [ ] Angebotsinhalte (Titel, Beschreibungen) ins Englische übersetzen – bisher ist nur die Oberfläche zweisprachig
 - [ ] Impressum und Datenschutzerklärung ergänzen (Pflicht in Deutschland)

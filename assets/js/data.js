@@ -26,40 +26,63 @@ RR.SHARED = {
   guide: [
     { id: 'nein', de: ['Ohne Jagdführer', 'Anstellen durch die Jagdleitung'], en: ['No personal guide', 'Placed on stand by the hunt master'], perDay: 0 },
     { id: 'ja', de: ['Persönlicher Jagdführer', 'Deutschsprachig, begleitet dich an allen Jagdtagen'], en: ['Personal guide', 'German-speaking, with you on every hunting day'], perDay: 120 }
-  ],
-  trophyPrep: [
-    { id: 'none', de: ['Keine Trophäenbehandlung', 'Trophäe bleibt im Revier oder ich kümmere mich'], en: ['No trophy service', 'Trophy stays or I handle it myself'], price: 0 },
-    { id: 'abkochen', de: ['Abkochen + Exportpapiere', 'Zum Mitnehmen nach Hause'], en: ['Boiling + export papers', 'Ready to take home'], price: 80 },
-    { id: 'schaedel', de: ['Schädelpräparat', 'Beim Partner-Präparator, Versand nach DE'], en: ['European skull mount', 'Partner taxidermist, shipped to Germany'], price: 250 },
-    { id: 'kopf', de: ['Kopfpräparat', 'Beim Partner-Präparator, Versand nach DE'], en: ['Head mount', 'Partner taxidermist, shipped to Germany'], price: 650 }
   ]
 };
 
-/* ---------- Trophäenklassen je Wildart (Abrechnung nach Preisliste des Reviers) ---------- */
+/* ---------- Trophäenklassen je Wildart (Abrechnung nach Preisliste des Reviers, nur bei Erlegung) ----------
+ * price = Schätzung, min/max = übliche Spanne innerhalb der Klasse */
 RR.TROPHY = {
   keiler: { de: 'Keiler', en: 'Boar (tusker)', note: { de: 'Waffenlänge', en: 'tusk length' }, classes: [
-    { id: 'none', de: ['Kein Keiler', 'Nur Frischlinge, Überläufer, Bachen'], en: ['No tusker', 'Piglets, yearlings, sows only'], price: 0 },
-    { id: 'k1', de: ['Keiler bis 14 cm', 'häufigste Klasse'], en: ['Tusker up to 14 cm', 'most common class'], price: 350 },
-    { id: 'k2', de: ['Keiler 14–16 cm', 'starker Keiler'], en: ['Tusker 14–16 cm', 'strong boar'], price: 650 },
-    { id: 'k3', de: ['Keiler über 16 cm', 'Lebenskeiler'], en: ['Tusker over 16 cm', 'trophy of a lifetime'], price: 950 }
+    { id: 'none', de: ['Kein Keiler', 'Nur Frischlinge, Überläufer, Bachen'], en: ['No tusker', 'Piglets, yearlings, sows only'], price: 0, min: 0, max: 0 },
+    { id: 'k1', de: ['Keiler bis 14 cm', 'häufigste Klasse'], en: ['Tusker up to 14 cm', 'most common class'], price: 350, min: 250, max: 450 },
+    { id: 'k2', de: ['Keiler 14–16 cm', 'starker Keiler'], en: ['Tusker 14–16 cm', 'strong boar'], price: 650, min: 550, max: 800 },
+    { id: 'k3', de: ['Keiler über 16 cm', 'Lebenskeiler'], en: ['Tusker over 16 cm', 'trophy of a lifetime'], price: 950, min: 850, max: 1300 }
   ]},
   hirsch: { de: 'Rothirsch', en: 'Red stag', note: { de: 'Geweihgewicht', en: 'antler weight' }, classes: [
-    { id: 'none', de: ['Kein Hirsch', 'Nur Kahlwild (Alttier, Kalb)'], en: ['No stag', 'Hinds and calves only'], price: 0 },
-    { id: 'h1', de: ['Hirsch bis 5 kg', 'junger Hirsch'], en: ['Stag up to 5 kg', 'young stag'], price: 1400 },
-    { id: 'h2', de: ['Hirsch 5–7 kg', 'mittlerer Hirsch'], en: ['Stag 5–7 kg', 'medium stag'], price: 2600 },
-    { id: 'h3', de: ['Hirsch über 7 kg', 'starker Hirsch'], en: ['Stag over 7 kg', 'strong stag'], price: 4200 }
+    { id: 'none', de: ['Kein Hirsch', 'Nur Kahlwild (Alttier, Kalb)'], en: ['No stag', 'Hinds and calves only'], price: 0, min: 0, max: 0 },
+    { id: 'h1', de: ['Hirsch bis 5 kg', 'junger Hirsch'], en: ['Stag up to 5 kg', 'young stag'], price: 1400, min: 1100, max: 1700 },
+    { id: 'h2', de: ['Hirsch 5–7 kg', 'mittlerer Hirsch'], en: ['Stag 5–7 kg', 'medium stag'], price: 2600, min: 2100, max: 3200 },
+    { id: 'h3', de: ['Hirsch über 7 kg', 'starker Hirsch'], en: ['Stag over 7 kg', 'strong stag'], price: 4200, min: 3500, max: 6000 }
   ]},
   damhirsch: { de: 'Damhirsch', en: 'Fallow buck', note: { de: 'Geweihgewicht', en: 'antler weight' }, classes: [
-    { id: 'none', de: ['Kein Damhirsch', 'Nur Damkahlwild'], en: ['No buck', 'Does and fawns only'], price: 0 },
-    { id: 'd1', de: ['Damhirsch bis 2,5 kg', 'junger Schaufler'], en: ['Buck up to 2.5 kg', 'young buck'], price: 600 },
-    { id: 'd2', de: ['Damhirsch 2,5–3,5 kg', 'mittlerer Schaufler'], en: ['Buck 2.5–3.5 kg', 'medium buck'], price: 1300 },
-    { id: 'd3', de: ['Damhirsch über 3,5 kg', 'starker Schaufler'], en: ['Buck over 3.5 kg', 'strong buck'], price: 2100 }
+    { id: 'none', de: ['Kein Damhirsch', 'Nur Damkahlwild'], en: ['No buck', 'Does and fawns only'], price: 0, min: 0, max: 0 },
+    { id: 'd1', de: ['Damhirsch bis 2,5 kg', 'junger Schaufler'], en: ['Buck up to 2.5 kg', 'young buck'], price: 600, min: 450, max: 750 },
+    { id: 'd2', de: ['Damhirsch 2,5–3,5 kg', 'mittlerer Schaufler'], en: ['Buck 2.5–3.5 kg', 'medium buck'], price: 1300, min: 1000, max: 1600 },
+    { id: 'd3', de: ['Damhirsch über 3,5 kg', 'starker Schaufler'], en: ['Buck over 3.5 kg', 'strong buck'], price: 2100, min: 1700, max: 2900 }
   ]},
   rehbock: { de: 'Rehbock', en: 'Roe buck', note: { de: 'Gehörngewicht', en: 'antler weight' }, classes: [
-    { id: 'r1', de: ['Bock bis 300 g', 'Abschussbock'], en: ['Buck up to 300 g', 'management buck'], price: 250 },
-    { id: 'r2', de: ['Bock 300–400 g', 'guter Bock'], en: ['Buck 300–400 g', 'good buck'], price: 550 },
-    { id: 'r3', de: ['Bock über 400 g', 'Medaillenbock'], en: ['Buck over 400 g', 'medal-class buck'], price: 1100 }
+    { id: 'r1', de: ['Bock bis 300 g', 'Abschussbock'], en: ['Buck up to 300 g', 'management buck'], price: 250, min: 180, max: 320 },
+    { id: 'r2', de: ['Bock 300–400 g', 'guter Bock'], en: ['Buck 300–400 g', 'good buck'], price: 550, min: 420, max: 700 },
+    { id: 'r3', de: ['Bock über 400 g', 'Medaillenbock'], en: ['Buck over 400 g', 'medal-class buck'], price: 1100, min: 850, max: 1600 }
   ]}
+};
+
+/* ---------- Trophäe & Präparat je Wildart (nur bei Erlegung, Schätzung mit Spanne) ---------- */
+RR.PREP = {
+  keiler: [
+    { id: 'none', de: ['Ohne Trophäe', 'Bleibt im Revier'], en: ['No trophy', 'Stays with the outfitter'], price: 0, min: 0, max: 0 },
+    { id: 'abkochen', de: ['Waffen abkochen', 'Inkl. Exportpapiere, zum Mitnehmen'], en: ['Tusks boiled', 'Incl. export papers, to take home'], price: 60, min: 50, max: 80 },
+    { id: 'brett', de: ['Waffen auf Brett', 'Beim Partner-Präparator, Versand nach DE'], en: ['Tusks on plaque', 'Partner taxidermist, shipped to Germany'], price: 180, min: 150, max: 230 },
+    { id: 'kopf', de: ['Kopfpräparat', 'Beim Partner-Präparator, Versand nach DE'], en: ['Head mount', 'Partner taxidermist, shipped to Germany'], price: 650, min: 550, max: 800 }
+  ],
+  hirsch: [
+    { id: 'none', de: ['Ohne Trophäe', 'Bleibt im Revier'], en: ['No trophy', 'Stays with the outfitter'], price: 0, min: 0, max: 0 },
+    { id: 'abkochen', de: ['Abkochen', 'Inkl. Exportpapiere, zum Mitnehmen'], en: ['Boiled skull', 'Incl. export papers, to take home'], price: 90, min: 70, max: 120 },
+    { id: 'brett', de: ['Geweih auf Brett', 'Beim Partner-Präparator, Versand nach DE'], en: ['Antlers on plaque', 'Partner taxidermist, shipped to Germany'], price: 250, min: 200, max: 300 },
+    { id: 'kopf', de: ['Kopfpräparat', 'Beim Partner-Präparator, Versand nach DE'], en: ['Head mount', 'Partner taxidermist, shipped to Germany'], price: 900, min: 750, max: 1100 }
+  ],
+  damhirsch: [
+    { id: 'none', de: ['Ohne Trophäe', 'Bleibt im Revier'], en: ['No trophy', 'Stays with the outfitter'], price: 0, min: 0, max: 0 },
+    { id: 'abkochen', de: ['Abkochen', 'Inkl. Exportpapiere, zum Mitnehmen'], en: ['Boiled skull', 'Incl. export papers, to take home'], price: 80, min: 60, max: 100 },
+    { id: 'brett', de: ['Geweih auf Brett', 'Beim Partner-Präparator, Versand nach DE'], en: ['Antlers on plaque', 'Partner taxidermist, shipped to Germany'], price: 220, min: 180, max: 260 },
+    { id: 'kopf', de: ['Kopfpräparat', 'Beim Partner-Präparator, Versand nach DE'], en: ['Head mount', 'Partner taxidermist, shipped to Germany'], price: 800, min: 650, max: 950 }
+  ],
+  rehbock: [
+    { id: 'none', de: ['Ohne Trophäe', 'Bleibt im Revier'], en: ['No trophy', 'Stays with the outfitter'], price: 0, min: 0, max: 0 },
+    { id: 'abkochen', de: ['Abkochen', 'Inkl. Exportpapiere, zum Mitnehmen'], en: ['Boiled skull', 'Incl. export papers, to take home'], price: 50, min: 40, max: 60 },
+    { id: 'brett', de: ['Gehörn auf Brett', 'Beim Partner-Präparator, Versand nach DE'], en: ['Antlers on plaque', 'Partner taxidermist, shipped to Germany'], price: 120, min: 90, max: 150 },
+    { id: 'kopf', de: ['Kopfpräparat', 'Beim Partner-Präparator, Versand nach DE'], en: ['Head mount', 'Partner taxidermist, shipped to Germany'], price: 450, min: 380, max: 550 }
+  ]
 };
 
 /* ---------- Unterkünfte in der Nähe (Option 2: selbst buchen) ---------- */
@@ -81,7 +104,7 @@ RR.OFFERS = [
     id: 'o1', title: 'Drückjagd Westpommern', land: 'Polen', region: 'Westpommern', art: 'Drückjagd',
     wild: ['Schwarzwild', 'Rotwild', 'Damwild'], start: '2027-10-15', end: '2028-01-15', saison: 'Mitte Okt. – Mitte Jan.',
     days: 3, nights: 3, capacity: 14, instant: true, rental: true, base: 1290, est: '1.700–2.600 €',
-    img: 'winterwald.svg', alt: 'Illustration: verschneiter Nadelwald', trophyMax: 2, kahl: true,
+    img: 'schwarzwild-winter', alt: 'Rotten Schwarzwild im verschneiten Wald', trophyMax: 2, kahl: true,
     recommended: { why: 'Beste Wahl für Gruppen', text: 'Bis zu 14 Schützen, Kahlwild und Sauen im Grundpreis, Sammelshuttle ab Berlin buchbar.' },
     includes: 'Organisation, Treiber, Hunde, Ansteller, Mittagessen im Revier. Frischlinge, Überläufer, Bachen und Kahlwild sind inklusive.',
     termine: [
@@ -100,13 +123,13 @@ RR.OFFERS = [
       { id: 'shuttle', de: ['Sammelshuttle ab Berlin', 'Hin und zurück, Waffentransport möglich'], en: ['Group shuttle from Berlin', 'Return trip, rifle transport possible'], price: 95 },
       { id: 'transfer', de: ['Flughafentransfer Stettin', 'Hin und zurück, Abholung am Terminal'], en: ['Airport transfer Szczecin', 'Return trip, pick-up at the terminal'], price: 140 }
     ],
-    gallery: [['winterwald.svg', 'Illustration: Revier im Winter'], ['hochsitz.svg', 'Illustration: Drückjagdstand'], ['see-huette.svg', 'Illustration: Unterkunft am See']]
+    gallery: [['schwarzwild-winter', 'Schwarzwild im verschneiten Wald'], ['hero-rothirsch', 'Rothirsch am Waldrand'], ['keiler-winter', 'Sau im Winterwald']]
   },
   {
     id: 'o2', title: 'Rehbock in Masuren', land: 'Polen', region: 'Ermland-Masuren', art: 'Pirschjagd',
     wild: ['Rehwild'], start: '2027-05-11', end: '2027-09-30', saison: 'Mai – Sept.',
     days: 3, nights: 3, capacity: 4, instant: true, rental: true, base: 890, est: '1.200–1.800 €',
-    img: 'hochsitz.svg', alt: 'Illustration: Hochsitz am Feldrand', trophyMax: 3, kahl: false,
+    img: 'rehbock-wiese', alt: 'Rehbock im hohen Gras', trophyMax: 3, kahl: false,
     recommended: { why: 'Ideal für die erste Auslandsjagd', text: 'Persönlicher Jagdführer, Leihwaffe vor Ort und deutschsprachige Betreuung.' },
     includes: 'Pirsch und Ansitz morgens und abends mit Jagdführer, Revierfahrten. Der Bock wird nach Gehörngewicht abgerechnet.',
     termine: [
@@ -123,13 +146,13 @@ RR.OFFERS = [
       { id: 'selbst', de: ['Eigene Anreise', 'Mit dem Auto, ca. 6 h ab Berlin'], en: ['Own travel', 'By car, approx. 6 h from Berlin'], price: 0 },
       { id: 'transfer', de: ['Flughafentransfer Danzig', 'Hin und zurück'], en: ['Airport transfer Gdańsk', 'Return trip'], price: 160 }
     ],
-    gallery: [['hochsitz.svg', 'Illustration: Hochsitz am Feldrand'], ['wald-morgen.svg', 'Illustration: Wald im Morgenrot'], ['see-huette.svg', 'Illustration: Gästehaus am See']]
+    gallery: [['rehbock-wiese', 'Rehbock im hohen Gras'], ['rehbock-heide', 'Rehbock in der Heide'], ['ricke', 'Ricke im Laubwald']]
   },
   {
     id: 'o3', title: 'Sau-Drückjagd Nógrád, Pauschale', land: 'Ungarn', region: 'Nógrád', art: 'Drückjagd',
     wild: ['Schwarzwild'], start: '2027-10-01', end: '2028-01-31', saison: 'Okt. – Jan.',
     days: 2, nights: 2, capacity: 25, instant: false, rental: true, base: 1150, est: '1.400–1.800 €',
-    img: 'herbst.svg', alt: 'Illustration: Hügel im Herbst', trophyMax: 1, kahl: true,
+    img: 'keiler', alt: 'Keiler im Buchenwald', trophyMax: 1, kahl: true,
     recommended: { why: 'Pauschalpreis ohne Abschussgebühren', text: 'Zwei Tage Saujagd, fester Preis – keine Überraschung bei der Abrechnung.' },
     includes: 'Zwei Drückjagdtage, Treiber und Hunde. Alle Sauen sind im Pauschalpreis enthalten – auch Keiler.',
     termine: [
@@ -145,13 +168,13 @@ RR.OFFERS = [
       { id: 'selbst', de: ['Eigene Anreise', 'Mit dem Auto'], en: ['Own travel', 'By car'], price: 0 },
       { id: 'transfer', de: ['Flughafentransfer Budapest', 'Hin und zurück'], en: ['Airport transfer Budapest', 'Return trip'], price: 120 }
     ],
-    gallery: [['herbst.svg', 'Illustration: Hügel im Herbst'], ['wald-morgen.svg', 'Illustration: Wald'], ['see-huette.svg', 'Illustration: Unterkunft']]
+    gallery: [['keiler', 'Keiler im Buchenwald'], ['schwarzwild-winter', 'Schwarzwild im Winter'], ['keiler-winter', 'Sau im Schnee']]
   },
   {
     id: 'o4', title: 'Hirschbrunft in Somogy', land: 'Ungarn', region: 'Somogy', art: 'Pirschjagd',
     wild: ['Rotwild'], start: '2027-09-05', end: '2027-10-10', saison: 'Sept. – Anf. Okt.',
     days: 4, nights: 4, capacity: 2, instant: false, rental: true, base: 1900, est: '3.500–8.000 €',
-    img: 'hirsch.svg', alt: 'Illustration: Hirsch in der Abenddämmerung', trophyMax: 3, kahl: false,
+    img: 'rothirsch-lauf', alt: 'Rothirsch zur Brunft im Abendlicht', trophyMax: 3, kahl: false,
     includes: 'Vier Pirschtage zur Brunft mit Berufsjäger. Der Hirsch wird nach Geweihgewicht laut Preisliste abgerechnet.',
     termine: [
       { id: 't1', label: '12.–15. Sept. 2027', sub: 'Brunftbeginn', free: 2 },
@@ -166,14 +189,14 @@ RR.OFFERS = [
       { id: 'selbst', de: ['Eigene Anreise', 'Mit dem Auto'], en: ['Own travel', 'By car'], price: 0 },
       { id: 'transfer', de: ['Flughafentransfer Budapest', 'Hin und zurück'], en: ['Airport transfer Budapest', 'Return trip'], price: 150 }
     ],
-    gallery: [['hirsch.svg', 'Illustration: Hirsch'], ['herbst.svg', 'Illustration: Revier im Herbst'], ['see-huette.svg', 'Illustration: Jagdhaus']]
+    gallery: [['rothirsch-lauf', 'Rothirsch im Abendlicht'], ['rothirsch-portrait', 'Kapitaler Rothirsch'], ['rothirsch-silhouette', 'Hirsch im Sonnenuntergang']]
   },
   {
-    id: 'o5', title: 'Damwild-Drückjagd Lebuser Land', land: 'Polen', region: 'Lebuser Land', art: 'Drückjagd',
-    wild: ['Damwild', 'Schwarzwild'], start: '2027-11-01', end: '2028-01-10', saison: 'Nov. – Anf. Jan.',
+    id: 'o5', title: 'Drückjagd Lebuser Land', land: 'Polen', region: 'Lebuser Land', art: 'Drückjagd',
+    wild: ['Damwild', 'Schwarzwild', 'Fuchs'], start: '2027-11-01', end: '2028-01-10', saison: 'Nov. – Anf. Jan.',
     days: 2, nights: 2, capacity: 8, instant: true, rental: false, base: 690, est: '800–1.300 €',
-    img: 'wald-morgen.svg', alt: 'Illustration: Wald im Morgenrot', trophyMax: 1, kahl: true,
-    includes: 'Zwei Drückjagdtage nahe der deutschen Grenze. Damkahlwild und Sauen bis 50 kg inklusive.',
+    img: 'fuchs', alt: 'Fuchs auf einer Wiese', trophyMax: 1, kahl: true,
+    includes: 'Zwei Drückjagdtage nahe der deutschen Grenze. Damkahlwild, Sauen bis 50 kg und Fuchs inklusive.',
     termine: [
       { id: 't1', label: '4.–5. Dez. 2027', sub: 'Anreise am Vorabend', free: 5 },
       { id: 't2', label: '8.–9. Jan. 2028', sub: 'Anreise am Vorabend', free: 8 }
@@ -184,13 +207,13 @@ RR.OFFERS = [
     travel: [
       { id: 'selbst', de: ['Eigene Anreise', 'Ca. 1,5 h ab Berlin'], en: ['Own travel', 'Approx. 1.5 h from Berlin'], price: 0 }
     ],
-    gallery: [['wald-morgen.svg', 'Illustration: Wald im Morgenrot'], ['winterwald.svg', 'Illustration: Winterwald'], ['hochsitz.svg', 'Illustration: Stand']]
+    gallery: [['fuchs', 'Fuchs auf einer Wiese'], ['schwarzwild-winter', 'Schwarzwild im Winter'], ['keiler-winter', 'Sau im Schnee']]
   },
   {
     id: 'o6', title: 'Ansitz auf Sauen, Südböhmen', land: 'Tschechien', region: 'Südböhmen', art: 'Ansitzjagd',
     wild: ['Schwarzwild'], start: '2027-01-01', end: '2027-12-31', saison: 'ganzjährig',
     days: 3, nights: 3, capacity: 3, instant: true, rental: true, base: 640, est: '900–1.400 €',
-    img: 'see-huette.svg', alt: 'Illustration: Jagdhütte am See', trophyMax: 2, kahl: true,
+    img: 'keiler-winter', alt: 'Sau im verschneiten Wald', trophyMax: 2, kahl: true,
     includes: 'Drei Ansitznächte an Kirrungen, Jagdführung zum Stand, Bergung.',
     termine: [
       { id: 't1', label: 'Flexibel, Do–So', sub: 'Nach Absprache', free: 3 },
@@ -204,13 +227,13 @@ RR.OFFERS = [
     travel: [
       { id: 'selbst', de: ['Eigene Anreise', 'Ca. 3 h ab München'], en: ['Own travel', 'Approx. 3 h from Munich'], price: 0 }
     ],
-    gallery: [['see-huette.svg', 'Illustration: Jagdhütte am See'], ['wald-morgen.svg', 'Illustration: Wald'], ['hochsitz.svg', 'Illustration: Kanzel']]
+    gallery: [['keiler-winter', 'Sau im verschneiten Wald'], ['keiler', 'Keiler'], ['schwarzwild-winter', 'Rotte im Schnee']]
   },
   {
     id: 'o7', title: 'Niederwild-Treibjagd Pannonien', land: 'Ungarn', region: 'Westtransdanubien', art: 'Treibjagd',
-    wild: ['Niederwild'], start: '2027-11-01', end: '2028-01-31', saison: 'Nov. – Jan.',
+    wild: ['Niederwild', 'Fuchs'], start: '2027-11-01', end: '2028-01-31', saison: 'Nov. – Jan.',
     days: 2, nights: 2, capacity: 12, instant: false, rental: true, base: 980, est: '1.200–1.700 €',
-    img: 'feld.svg', alt: 'Illustration: Feld am Waldrand', trophyMax: 0, kahl: true,
+    img: 'hase', alt: 'Feldhase', trophyMax: 0, kahl: true,
     includes: 'Zwei Treibjagdtage auf Fasan und Hase, Treiber, Hunde, Streckenlegen. Abrechnung je erlegtem Stück laut Preisliste.',
     termine: [
       { id: 't1', label: '27.–28. Nov. 2027', sub: 'Auf Anfrage', free: 12 },
@@ -225,13 +248,27 @@ RR.OFFERS = [
       { id: 'selbst', de: ['Eigene Anreise', 'Mit dem Auto'], en: ['Own travel', 'By car'], price: 0 },
       { id: 'transfer', de: ['Flughafentransfer Wien', 'Hin und zurück'], en: ['Airport transfer Vienna', 'Return trip'], price: 110 }
     ],
-    gallery: [['feld.svg', 'Illustration: Feld'], ['herbst.svg', 'Illustration: Herbst'], ['see-huette.svg', 'Illustration: Unterkunft']]
+    gallery: [['hase', 'Feldhase'], ['fuchs', 'Fuchs']]
   }
 ];
 
 /* Empfohlene Zusammenstellung je Angebot ("Unsere Empfehlung übernehmen") */
 RR.RECOMMENDED_SETUP = {
-  o1: { trophy: { keiler: 'k1', hirsch: 'none' }, weapon: 'eigen', guide: 'nein', lodging: 'pension', travel: 'shuttle', prep: 'abkochen' },
-  o2: { trophy: { rehbock: 'r1' }, weapon: 'leih', guide: 'ja', lodging: 'pension', travel: 'selbst', prep: 'abkochen' },
-  default: { weapon: 'eigen', guide: 'nein', prep: 'none' }
+  o1: { trophy: { keiler: 'k1', hirsch: 'none' }, weapon: 'eigen', guide: 'nein', lodging: 'pension', travel: 'shuttle', prep: { keiler: 'abkochen' } },
+  o2: { trophy: { rehbock: 'r1' }, weapon: 'leih', guide: 'ja', lodging: 'pension', travel: 'selbst', prep: { rehbock: 'abkochen' } },
+  default: { weapon: 'eigen', guide: 'nein' }
 };
+
+/* Fotos: Dateien liegen als <name>-800.jpg und <name>-1600.jpg in assets/img/foto/ */
+RR.PHOTO_DIR = 'assets/img/foto/';
+RR.HERO = { img: 'hero-rothirsch', alt: 'Rothirsch vor dem Waldrand' };
+RR.BAND = { img: 'rothirsch-silhouette', alt: 'Silhouette eines Rothirschs im Sonnenuntergang' };
+
+/* Kacheln "Wildarten entdecken" auf der Startseite */
+RR.SPECIES = [
+  { wild: 'Schwarzwild', img: 'keiler', alt: 'Keiler im Buchenwald' },
+  { wild: 'Rotwild', img: 'rothirsch-portrait', alt: 'Kapitaler Rothirsch' },
+  { wild: 'Rehwild', img: 'rehbock-heide', alt: 'Rehbock in der Heide' },
+  { wild: 'Niederwild', img: 'hase', alt: 'Feldhase' },
+  { wild: 'Fuchs', img: 'fuchs', alt: 'Fuchs auf einer Wiese' }
+];

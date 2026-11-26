@@ -13,8 +13,8 @@ RR.pricing = (function () {
   /* Startzustand für ein Angebot */
   function initialState(o, h, g) {
     var firstFree = o.termine.filter(function (t) { return t.free > 0; })[0] || o.termine[0];
-    var trophy = {};
-    o.trophies.forEach(function (sp) { trophy[sp] = RR.TROPHY[sp].classes[0].id; });
+    var trophy = {}, prep = {};
+    o.trophies.forEach(function (sp) { trophy[sp] = RR.TROPHY[sp].classes[0].id; prep[sp] = 'none'; });
     return {
       termin: firstFree.id,
       h: Math.min(Math.max(1, h || 1), o.capacity),
@@ -25,7 +25,7 @@ RR.pricing = (function () {
       lodging: 'none',
       stay: '',
       travel: o.travel[0].id,
-      prep: 'none'
+      prep: prep
     };
   }
 
@@ -80,21 +80,24 @@ RR.pricing = (function () {
     var tr = find(o.travel, s.travel);
     if (tr && tr.price) add('travel', tr.price * persons, false, { qty: persons, unit: tr.price, item: tr });
 
-    var tc = trophyCount(o, s);
-    var prep = find(RR.SHARED.trophyPrep, s.prep);
-    if (prep && prep.price && tc) add('prep', prep.price * tc, false, { qty: tc, unit: prep.price, item: prep });
-
+    /* Nur bei Erlegung: Abschuss je Wildart + Trophäe/Präparat für genau dieses Stück (1 Stück je Jäger) */
     o.trophies.forEach(function (sp) {
       var cls = find(RR.TROPHY[sp].classes, s.trophy[sp]);
-      if (cls && cls.price) add('trophy', cls.price * s.h, true, { qty: s.h, unit: cls.price, item: cls, species: sp });
+      if (!cls || cls.id === 'none') return;
+      if (cls.price) add('trophy', cls.price * s.h, true, { qty: s.h, unit: cls.price, min: cls.min * s.h, max: cls.max * s.h, item: cls, species: sp });
+      var pr = find(RR.PREP[sp], (s.prep || {})[sp]);
+      if (pr && pr.price) add('prep', pr.price * s.h, true, { qty: s.h, unit: pr.price, min: pr.min * s.h, max: pr.max * s.h, item: pr, species: sp });
     });
 
-    var fix = 0, vari = 0;
-    lines.forEach(function (l) { if (l.variable) vari += l.amount; else fix += l.amount; });
+    var fix = 0, vari = 0, vMin = 0, vMax = 0;
+    lines.forEach(function (l) {
+      if (l.variable) { vari += l.amount; vMin += l.min; vMax += l.max; } else fix += l.amount;
+    });
     return {
-      lines: lines, fix: fix, variable: vari, total: fix + vari,
+      lines: lines, fix: fix, variable: vari, variableMin: vMin, variableMax: vMax,
+      total: fix + vari, totalMin: fix + vMin, totalMax: fix + vMax,
       perHunter: (fix + vari) / s.h,
-      trophyCount: tc,
+      trophyCount: trophyCount(o, s),
       termin: termin,
       overCapacity: s.h > termin.free,
       chosenStay: chosenStay
@@ -106,7 +109,9 @@ RR.pricing = (function () {
     var r = RR.RECOMMENDED_SETUP[o.id] || RR.RECOMMENDED_SETUP.default;
     var n = Object.assign({}, s, { trophy: Object.assign({}, s.trophy) });
     if (r.trophy) Object.keys(r.trophy).forEach(function (sp) { if (o.trophies.indexOf(sp) > -1) n.trophy[sp] = r.trophy[sp]; });
-    ['weapon', 'guide', 'prep'].forEach(function (k) { if (r[k]) n[k] = r[k]; });
+    ['weapon', 'guide'].forEach(function (k) { if (r[k]) n[k] = r[k]; });
+    n.prep = Object.assign({}, s.prep);
+    if (r.prep) Object.keys(r.prep).forEach(function (sp) { if (o.trophies.indexOf(sp) > -1) n.prep[sp] = r.prep[sp]; });
     if (r.weapon === 'leih' && !o.rental) n.weapon = 'eigen';
     if (r.lodging && (find(o.lodging, r.lodging) || r.lodging === 'none')) n.lodging = r.lodging;
     if (r.travel && find(o.travel, r.travel)) n.travel = r.travel;

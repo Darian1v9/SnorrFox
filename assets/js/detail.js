@@ -73,11 +73,26 @@
 
     o.trophies.forEach(function (sp) {
       var def = RR.TROPHY[sp];
+      var chosen = P.find(def.classes, state.trophy[sp]);
+      var shot = chosen && chosen.id !== 'none';
+      var prepSel = (state.prep || {})[sp] || 'none';
       cards.push(card(++n, T('stepTrophy', { s: L(def) }), T('stepTrophyHint', { note: L(def.note) }),
         el('div', { class: 'options' }, def.classes.map(function (c) {
-          return option('tr-' + sp + '-' + c.id, L(c)[0], L(c)[1], c.price ? T('approx', { v: U.eur(c.price) }) : '0 €',
-            state.trophy[sp] === c.id, false, function () { setTrophy(sp, c.id); });
-        }))));
+          return option('tr-' + sp + '-' + c.id, L(c)[0], c.price ? L(c)[1] + ' · ' + T('range', { a: U.eur(c.min), b: U.eur(c.max) }) : L(c)[1],
+            c.price ? T('approx', { v: U.eur(c.price) }) : '0 €', state.trophy[sp] === c.id, false, function () { setTrophy(sp, c.id); });
+        })),
+        shot && el('div', { class: 'prep-box' },
+          el('div', { class: 'prep-head' },
+            el('span', { class: 'prep-arrow', 'aria-hidden': 'true' }, '↳'),
+            el('div', null,
+              el('h3', null, T('prepFor', { s: L(chosen)[0] })),
+              el('p', null, T('prepHint')))),
+          el('div', { class: 'options compact' }, RR.PREP[sp].map(function (p) {
+            return option('pp-' + sp + '-' + p.id, L(p)[0],
+              p.price ? L(p)[1] + ' · ' + T('range', { a: U.eur(p.min), b: U.eur(p.max) }) : L(p)[1],
+              p.price ? T('approxPlus', { v: U.eur(p.price) }) : '0 €', prepSel === p.id, false,
+              function () { var x = Object.assign({}, state.prep); x[sp] = p.id; set({ prep: x }); });
+          })))));
     });
 
     cards.push(card(++n, T('stepWeapon'), T('stepWeaponHint'),
@@ -116,15 +131,6 @@
           state.travel === t.id, false, function () { set({ travel: t.id }); });
       }))));
 
-    if (o.trophies.length) {
-      var tc = r.trophyCount;
-      cards.push(card(++n, T('stepPrep'), tc ? T('stepPrepHint', { n: tc }) : T('stepPrepNone'),
-        el('div', { class: 'options' }, RR.SHARED.trophyPrep.map(function (p) {
-          return option('p-' + p.id, L(p)[0], L(p)[1], p.price ? T('plusPT', { v: U.eur(p.price) }) : T('free'),
-            state.prep === p.id, !tc && p.id !== 'none', function () { set({ prep: p.id }); });
-        }))));
-    }
-
     return el('div', { class: 'config' },
       el('div', { class: 'rec-box' },
         el('div', { class: 'txt' }, el('span', { class: 'eyebrow' }, T('recBox')), el('span', null, T('recBoxText'))),
@@ -141,30 +147,39 @@
       case 'guests': return [T('lineGuests'), l.qty + ' × ' + U.eur(l.unit)];
       case 'weapon': return [T('lineWeapon'), l.qty + ' × ' + U.eur(l.unit)];
       case 'guide': return [T('lineGuide'), l.qty + ' × ' + U.eur(l.unit)];
-      case 'lodging': case 'travel': case 'prep': return [L(l.item)[0], l.qty + ' × ' + U.eur(l.unit)];
+      case 'lodging': case 'travel': return [L(l.item)[0], l.qty + ' × ' + U.eur(l.unit)];
+      case 'prep': return ['+ ' + L(l.item)[0] + ' (' + L(RR.TROPHY[l.species]) + ')', l.qty + ' × ' + T('approx', { v: U.eur(l.unit) }) + ' · ' + T('range', { a: U.eur(l.min), b: U.eur(l.max) })];
       case 'stay': return [l.item.stay.name, T('selfBookSub') + ' · ' + T('nightsUnits', { u: l.item.units, unit: L(l.item.stay.unit), n: o.nights })];
-      case 'trophy': return [L(l.item)[0], T('onlyIfShot') + ' · ' + l.qty + ' × ' + T('approx', { v: U.eur(l.unit) })];
+      case 'trophy': return [L(l.item)[0], l.qty + ' × ' + T('approx', { v: U.eur(l.unit) }) + ' · ' + T('range', { a: U.eur(l.min), b: U.eur(l.max) })];
     }
     return [l.key, x];
+  }
+
+  function sumGroup(title, lines, sum, range, o, r, cls) {
+    return el('div', { class: 'sum-group' + (cls ? ' ' + cls : '') },
+      el('div', { class: 'sum-head' }, el('span', null, title), el('strong', null, sum)),
+      range && el('div', { class: 'sum-range' }, range),
+      el('div', { class: 'lines' }, lines.map(function (l) {
+        var tx = lineText(o, l, r);
+        return el('div', { class: 'line' + (l.key === 'prep' ? ' sub-line' : '') },
+          el('span', { class: 'l' }, tx[0], el('small', null, tx[1])), el('span', { class: 'a' }, U.eur(l.amount)));
+      })));
   }
 
   function summary(o, r) {
     return el('aside', { class: 'summary', 'aria-label': T('sumTitle') },
       el('div', { class: 'head' }, el('h2', null, T('sumTitle')),
         el('span', null, r.termin.label + ' · ' + T('huntersN', { n: state.h }) + (state.g ? T('guestsShort', { n: state.g }) : ''))),
-      el('div', { class: 'lines' }, r.lines.map(function (l) {
-        var tx = lineText(o, l, r);
-        return el('div', { class: 'line' }, el('span', { class: 'l' }, tx[0], el('small', null, tx[1])), el('span', { class: 'a' }, U.eur(l.amount)));
-      })),
-      el('div', { class: 'sums' },
-        el('div', null, el('span', null, T('fix')), el('strong', null, U.eur(r.fix))),
-        el('div', null, el('span', null, T('variable')), el('strong', null, U.eur(r.variable)))),
+      sumGroup(T('fixHead'), r.lines.filter(function (l) { return !l.variable; }), U.eur(r.fix), null, o, r),
+      r.variable > 0 && sumGroup(T('varHead'), r.lines.filter(function (l) { return l.variable; }), T('approx', { v: U.eur(r.variable) }),
+        T('range', { a: U.eur(r.variableMin), b: U.eur(r.variableMax) }), o, r, 'var'),
       el('div', { class: 'total' },
         el('span', { class: 't1' }, T('total')),
-        el('span', { class: 't2', 'aria-live': 'polite' }, U.eur(r.total)),
+        el('span', { class: 't2', 'aria-live': 'polite' }, (r.variable > 0 ? T('approxShort') + ' ' : '') + U.eur(r.total)),
+        r.variable > 0 && el('span', { class: 't-range' }, T('totalRange', { a: U.eur(r.totalMin), b: U.eur(r.totalMax) })),
         el('span', { class: 't3' }, T('perHunterTotal', { v: U.eur(r.perHunter) }) + (state.g ? T('guestsIncluded') : ''))),
       r.chosenStay && el('p', { class: 'warn' }, T('selfBookNote', { name: r.chosenStay.stay.name })),
-      el('button', { type: 'button', class: 'btn', 'data-fid': 'enquire', disabled: r.overCapacity, onclick: openEnquiry }, T('enquire')),
+      el('button', { type: 'button', class: 'btn', 'data-fid': 'enquire', 'data-magnetic': '', disabled: r.overCapacity, onclick: openEnquiry }, T('enquire')),
       el('p', { class: 'small' }, T('noPrepay')),
       el('div', { class: 'needs' },
         el('strong', null, T('needTitle')),
@@ -194,23 +209,31 @@
   });
 
   /* ---------- Seite zeichnen ---------- */
+  var firstRender = true;
   function render() {
+    var intro = firstRender ? ' reveal' : '';
+    firstRender = false;
     var active = document.activeElement && document.activeElement.getAttribute('data-fid');
     if (!offer) { U.replace(content, el('p', { class: 'empty' }, T('notFound'))); return; }
     document.title = 'Revierreise – ' + offer.title;
     var r = P.calc(offer, state);
     U.replace(content,
-      el('div', { class: 'detail-head' },
+      el('div', { class: 'detail-head' + intro },
         el('span', { class: 'where' }, U.term(lang, offer.land) + ' · ' + offer.region),
         el('h1', null, offer.title + ' – ' + offer.days + ' ' + (lang === 'en' ? 'hunting days' : 'Jagdtage')),
         el('div', { class: 'chip-list', style: 'align-items:center' },
           el('span', { class: 'chip strong' }, U.term(lang, offer.art)),
-          offer.wild.map(function (w) { return el('span', { class: 'chip' }, U.term(lang, w)); }),
+          offer.wild.map(function (w) { return el('span', { class: 'chip species-chip' }, RR.icon(w), U.term(lang, w)); }),
           offer.instant ? el('span', { class: 'flag-ok', style: 'font-size:13px;font-weight:600;margin-left:6px' }, '● ' + T('available'))
             : el('span', { class: 'flag-req', style: 'font-size:13px;font-weight:600;margin-left:6px' }, '● ' + T('onRequest')),
           el('span', { style: 'font-size:13px;font-weight:600;color:var(--ink-2)' }, '✓ ' + T('verified')))),
-      el('div', { class: 'gallery' }, offer.gallery.map(function (g) { return el('img', { src: 'assets/img/' + g[0], alt: g[1] }); })),
-      el('div', { class: 'layout' }, config(offer, r), summary(offer, r)));
+      el('div', { class: 'gallery mosaic' + (offer.gallery.length === 2 ? ' two' : '') + intro }, offer.gallery.map(function (g, i) {
+        return U.photo(g[0], g[1], i === 0 ? '(max-width: 700px) 100vw, 800px' : '(max-width: 700px) 50vw, 400px', i === 0 ? { loading: 'eager', fetchpriority: 'high' } : null);
+      })),
+      el('div', { class: 'layout' + intro }, config(offer, r), summary(offer, r)));
+    var totalEl = content.querySelector('.total .t2');
+    if (totalEl && RR.motion) RR.motion.tween(totalEl, 'total', r.total, function (v) { return (r.variable > 0 ? T('approxShort') + ' ' : '') + U.eur(v); });
+    if (RR.motion) RR.motion.scan(content);
     if (active) { var again = content.querySelector('[data-fid="' + active + '"]'); if (again && !again.disabled) again.focus(); }
   }
 
