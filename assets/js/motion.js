@@ -153,32 +153,9 @@ RR.motion = (function () {
     update();
   }
 
-  /* ---------- Cursor: Zielfernrohr-Ring ---------- */
-  function initCursor() {
-    if (!hover || reduce) return;
-    var ring = document.createElement('div');
-    ring.className = 'cursor-scope';
-    ring.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(ring);
-    var cx = -100, cy = -100, tx = cx, ty = cy, shown = false;
-    window.addEventListener('mousemove', function (e) {
-      tx = e.clientX; ty = e.clientY;
-      if (!shown) { shown = true; cx = tx; cy = ty; ring.classList.add('on'); }
-      var t = e.target.closest && e.target.closest('a, button, .species-tile, .rec-card, .opt, select, input, label');
-      ring.classList.toggle('big', !!t);
-    }, { passive: true });
-    document.addEventListener('mouseleave', function () { ring.classList.remove('on'); shown = false; });
-    (function loop() {
-      cx += (tx - cx) * 0.2; cy += (ty - cy) * 0.2;
-      ring.style.transform = 'translate(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px)';
-      requestAnimationFrame(loop);
-    })();
-  }
-
   document.addEventListener('DOMContentLoaded', function () {
     document.documentElement.classList.add('js-motion');
     initScroll();
-    initCursor();
     scan();
   });
 

@@ -208,6 +208,87 @@
     dialog.close();
   });
 
+  /* ---------- Bildergalerie: läuft automatisch durch ---------- */
+  var cache = { lang: null, gallery: null, map: null, mapApi: null };
+  function gallery(o) {
+    var idx = 0, timer = null, DELAY = 4500;
+    var slides = o.gallery.map(function (g, i) {
+      return el('div', { class: 'slide' + (i === 0 ? ' active' : '') },
+        U.photo(g[0], g[1], '(max-width: 900px) 100vw, 1100px', i === 0 ? { loading: 'eager', fetchpriority: 'high' } : null));
+    });
+    var thumbs = o.gallery.map(function (g, i) {
+      return el('button', { type: 'button', class: 'thumb' + (i === 0 ? ' active' : ''), 'aria-label': T('galShow', { n: i + 1 }), onclick: function () { go(i, true); } },
+        U.photo(g[0], '', '120px', { loading: 'lazy' }));
+    });
+    var bar = el('span', { class: 'car-bar' });
+    var root = el('div', { class: 'carousel reveal', tabindex: '0', 'aria-roledescription': 'carousel' },
+      el('div', { class: 'car-stage' }, slides,
+        el('button', { type: 'button', class: 'car-nav prev', 'aria-label': T('galPrev'), onclick: function () { go(idx - 1, true); } }, '‹'),
+        el('button', { type: 'button', class: 'car-nav next', 'aria-label': T('galNext'), onclick: function () { go(idx + 1, true); } }, '›'),
+        el('span', { class: 'car-count' }, '1 / ' + slides.length),
+        el('span', { class: 'car-progress' }, bar)),
+      el('div', { class: 'car-thumbs' }, thumbs));
+    var count = root.querySelector('.car-count');
+    function go(n, user) {
+      idx = (n + slides.length) % slides.length;
+      slides.forEach(function (s, i) { s.classList.toggle('active', i === idx); });
+      thumbs.forEach(function (t, i) { t.classList.toggle('active', i === idx); });
+      count.textContent = (idx + 1) + ' / ' + slides.length;
+      if (user) start();
+    }
+    function start() {
+      clearInterval(timer);
+      bar.classList.remove('run'); void bar.offsetWidth; bar.classList.add('run');
+      bar.style.animationDuration = DELAY + 'ms';
+      timer = setInterval(function () { go(idx + 1); bar.classList.remove('run'); void bar.offsetWidth; bar.classList.add('run'); }, DELAY);
+    }
+    function stop() { clearInterval(timer); timer = null; bar.classList.remove('run'); }
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    root.addEventListener('focusin', stop);
+    root.addEventListener('focusout', function (e) { if (!root.contains(e.relatedTarget)) start(); });
+    root.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { go(idx - 1); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { go(idx + 1); e.preventDefault(); }
+    });
+    var sx = null;
+    root.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse') sx = e.clientX; });
+    root.addEventListener('pointerup', function (e) {
+      if (sx == null) return;
+      var dx = e.clientX - sx; sx = null;
+      if (Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1), true);
+    });
+    root._stop = stop;
+    if (slides.length > 1) start(); else root.classList.add('single');
+    return root;
+  }
+
+  /* ---------- Karte: Lage & Anreise ---------- */
+  function mapSection(o) {
+    var g = RR.GEO && RR.GEO[o.id];
+    if (!g || !RR.map) return null;
+    var air = g.air ? { lat: g.air.lat, lng: g.air.lng, code: g.air.code, label: lang === 'en' ? g.air.en : g.air.de } : null;
+    var api = RR.map.create({
+      revier: { lat: g.lat, lng: g.lng, label: o.title },
+      areaHa: g.ha, airport: air, icon: RR.icon(o.wild[0], 18), ariaLabel: T('mapAria'),
+      labels: { in: T('mapIn'), out: T('mapOut'), revier: T('mapRevier'), travel: T('mapTravel'), full: T('mapFull'), air: T('mapAir'), hint: T('mapHint'), attrib: T('mapAttrib') }
+    });
+    cache.mapApi = api;
+    var nf = new Intl.NumberFormat(lang === 'en' ? 'en-GB' : 'de-DE');
+    var fact = function (k, v) { return el('div', { class: 'map-fact' }, el('span', null, T(k)), el('strong', null, v)); };
+    return el('section', { class: 'map-section reveal' },
+      el('div', { class: 'map-info' },
+        el('p', { class: 'kicker' }, T('mapKicker')),
+        el('h2', null, T('mapTitle')),
+        el('p', { class: 'muted' }, T('mapSub')),
+        el('div', { class: 'map-facts' },
+          fact('mapRegion', U.term(lang, o.land) + ' · ' + o.region),
+          fact('mapArea', 'ca. ' + nf.format(g.ha) + ' ha'),
+          air && fact('mapAirport', air.code + ' · ' + air.label),
+          air && fact('mapDist', '≈ ' + Math.round(RR.map.km(g, air)) + ' km'))),
+      api.el);
+  }
+
   /* ---------- Seite zeichnen ---------- */
   var firstRender = true;
   function render() {
@@ -217,6 +298,7 @@
     if (!offer) { U.replace(content, el('p', { class: 'empty' }, T('notFound'))); return; }
     document.title = 'Revierreise – ' + offer.title;
     var r = P.calc(offer, state);
+    if (cache.lang !== lang) { if (cache.gallery) cache.gallery._stop(); cache.lang = lang; cache.gallery = gallery(offer); cache.map = mapSection(offer); cache.reviews = RR.reviews ? RR.reviews.section(offer, lang, T) : null; }
     U.replace(content,
       el('div', { class: 'detail-head' + intro },
         el('span', { class: 'where' }, U.term(lang, offer.land) + ' · ' + offer.region),
@@ -227,10 +309,11 @@
           offer.instant ? el('span', { class: 'flag-ok', style: 'font-size:13px;font-weight:600;margin-left:6px' }, '● ' + T('available'))
             : el('span', { class: 'flag-req', style: 'font-size:13px;font-weight:600;margin-left:6px' }, '● ' + T('onRequest')),
           el('span', { style: 'font-size:13px;font-weight:600;color:var(--ink-2)' }, '✓ ' + T('verified')))),
-      el('div', { class: 'gallery mosaic' + (offer.gallery.length === 2 ? ' two' : '') + intro }, offer.gallery.map(function (g, i) {
-        return U.photo(g[0], g[1], i === 0 ? '(max-width: 700px) 100vw, 800px' : '(max-width: 700px) 50vw, 400px', i === 0 ? { loading: 'eager', fetchpriority: 'high' } : null);
-      })),
-      el('div', { class: 'layout' + intro }, config(offer, r), summary(offer, r)));
+      cache.gallery,
+      el('div', { class: 'layout' + intro }, config(offer, r), summary(offer, r)),
+      cache.map,
+      cache.reviews);
+    if (cache.mapApi) requestAnimationFrame(cache.mapApi.refresh);
     var totalEl = content.querySelector('.total .t2');
     if (totalEl && RR.motion) RR.motion.tween(totalEl, 'total', r.total, function (v) { return (r.variable > 0 ? T('approxShort') + ' ' : '') + U.eur(v); });
     if (RR.motion) RR.motion.scan(content);

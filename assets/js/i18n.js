@@ -66,7 +66,15 @@ RR.I18N = {
     formTitle: 'Unverbindliche Anfrage', formIntro: 'Wir prüfen Termin und Verfügbarkeit beim Revier und melden uns innerhalb von 48 Stunden.',
     fName: 'Name', fEmail: 'E-Mail', fPhone: 'Telefon (optional)', fMsg: 'Nachricht (optional)', fSend: 'Anfrage per E-Mail senden', fCancel: 'Abbrechen',
     fHint: 'Dein E-Mail-Programm öffnet sich mit allen Angaben. Es wird nichts automatisch verschickt.',
-    notFound: 'Dieses Angebot gibt es nicht (mehr).', mailSubject: 'Anfrage: {t}'
+    notFound: 'Dieses Angebot gibt es nicht (mehr).', mailSubject: 'Anfrage: {t}',
+    mapKicker: 'Lage & Anreise', mapTitle: 'Wo du jagst', mapSub: 'Ungefähre Lage des Reviers – die genaue Anfahrt bekommst du mit der Buchungsbestätigung.',
+    mapArea: 'Reviergröße', mapAirport: 'Nächster Flughafen', mapDist: 'Luftlinie zum Revier', mapRegion: 'Region',
+    mapIn: 'Hineinzoomen', mapOut: 'Herauszoomen', mapRevier: 'Revier', mapTravel: 'Anreise', mapFull: 'Vollbild', mapAir: 'Luftlinie',
+    mapHint: 'Zum Zoomen in die Karte klicken – oder Strg + Mausrad', mapAttrib: '© OpenStreetMap-Mitwirkende © CARTO', mapAria: 'Karte des Reviers',
+    galPrev: 'Vorheriges Bild', galNext: 'Nächstes Bild', galShow: 'Bild {n} zeigen',
+    rvCount: '{n} Bewertungen', rvSample: 'Beispieldaten im Entwurf', rvNote: 'Nur Jäger, die über Revierreise gebucht und gejagt haben, können eine Bewertung abgeben.',
+    rvOverall: 'Gesamtbewertung', rvMention: 'Jäger erwähnen', rvMore: 'Mehr anzeigen', rvLess: 'Weniger anzeigen',
+    rvWeek1: 'vor 1 Woche', rvWeeks: 'vor {n} Wochen', rvMonth1: 'vor 1 Monat', rvMonths: 'vor {n} Monaten', knowTitle: 'Was du wissen solltest'
   },
   en: {
     navLabel: 'Main navigation', navFind: 'Find hunts', navHow: 'How it works', navPartners: 'For outfitters', login: 'Sign in', langLabel: 'Language',
@@ -132,7 +140,15 @@ RR.I18N = {
     formTitle: 'Free enquiry', formIntro: 'We check date and availability with the hunting area and get back to you within 48 hours.',
     fName: 'Name', fEmail: 'Email', fPhone: 'Phone (optional)', fMsg: 'Message (optional)', fSend: 'Send enquiry by email', fCancel: 'Cancel',
     fHint: 'Your email app opens with all details. Nothing is sent automatically.',
-    notFound: 'This hunt does not exist (anymore).', mailSubject: 'Enquiry: {t}'
+    notFound: 'This hunt does not exist (anymore).', mailSubject: 'Enquiry: {t}',
+    mapKicker: 'Location & travel', mapTitle: 'Where you hunt', mapSub: 'Approximate location of the hunting area – exact directions come with your booking confirmation.',
+    mapArea: 'Area size', mapAirport: 'Nearest airport', mapDist: 'Straight-line distance', mapRegion: 'Region',
+    mapIn: 'Zoom in', mapOut: 'Zoom out', mapRevier: 'Hunting area', mapTravel: 'Travel', mapFull: 'Full screen', mapAir: 'as the crow flies',
+    mapHint: 'Click the map to zoom – or Ctrl + scroll', mapAttrib: '© OpenStreetMap contributors © CARTO', mapAria: 'Map of the hunting area',
+    galPrev: 'Previous photo', galNext: 'Next photo', galShow: 'Show photo {n}',
+    rvCount: '{n} reviews', rvSample: 'Sample data in this draft', rvNote: 'Only hunters who booked and hunted via Revierreise can leave a review.',
+    rvOverall: 'Overall rating', rvMention: 'Hunters mention', rvMore: 'Show more', rvLess: 'Show less',
+    rvWeek1: '1 week ago', rvWeeks: '{n} weeks ago', rvMonth1: '1 month ago', rvMonths: '{n} months ago', knowTitle: 'Good to know'
   }
 };
 

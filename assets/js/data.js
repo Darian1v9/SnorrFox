@@ -261,8 +261,8 @@ RR.RECOMMENDED_SETUP = {
 
 /* Fotos: Dateien liegen als <name>-800.jpg und <name>-1600.jpg in assets/img/foto/ */
 RR.PHOTO_DIR = 'assets/img/foto/';
-RR.HERO = { img: 'hero-rothirsch', alt: 'Rothirsch vor dem Waldrand' };
-RR.BAND = { img: 'rothirsch-silhouette', alt: 'Silhouette eines Rothirschs im Sonnenuntergang' };
+RR.HERO = { img: 'rothirsch-silhouette', alt: 'Silhouette eines Rothirschs im Sonnenuntergang' };
+RR.BAND = { img: 'hero-rothirsch', alt: 'Rothirsch vor dem Waldrand' };
 
 /* Kacheln "Wildarten entdecken" auf der Startseite */
 RR.SPECIES = [
@@ -272,3 +272,14 @@ RR.SPECIES = [
   { wild: 'Niederwild', img: 'hase', alt: 'Feldhase' },
   { wild: 'Fuchs', img: 'fuchs', alt: 'Fuchs auf einer Wiese' }
 ];
+
+/* Lage der Reviere (ungefähr – genaue Anfahrt erst nach Buchung) und nächster sinnvoller Flughafen */
+RR.GEO = {
+  o1: { lat: 53.56, lng: 15.52, ha: 4200, air: { code: 'SZZ', de: 'Stettin-Goleniów', en: 'Szczecin-Goleniów', lat: 53.5847, lng: 14.9022 } },
+  o2: { lat: 53.80, lng: 21.56, ha: 2800, air: { code: 'SZY', de: 'Olsztyn-Mazury', en: 'Olsztyn-Mazury', lat: 53.4819, lng: 20.9377 } },
+  o3: { lat: 48.02, lng: 19.48, ha: 3500, air: { code: 'BUD', de: 'Budapest', en: 'Budapest', lat: 47.4369, lng: 19.2556 } },
+  o4: { lat: 46.42, lng: 17.62, ha: 6000, air: { code: 'SOB', de: 'Hévíz-Balaton', en: 'Hévíz-Balaton', lat: 46.6864, lng: 17.1592 } },
+  o5: { lat: 52.45, lng: 15.18, ha: 3100, air: { code: 'BER', de: 'Berlin Brandenburg', en: 'Berlin Brandenburg', lat: 52.3667, lng: 13.5033 } },
+  o6: { lat: 49.03, lng: 14.48, ha: 1800, air: { code: 'LNZ', de: 'Linz', en: 'Linz', lat: 48.2332, lng: 14.1875 } },
+  o7: { lat: 47.46, lng: 17.08, ha: 2400, air: { code: 'VIE', de: 'Wien', en: 'Vienna', lat: 48.1103, lng: 16.5697 } }
+};

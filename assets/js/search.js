@@ -109,7 +109,7 @@
     return el('article', { class: 'offer reveal' }, img(o, '(max-width: 700px) 100vw, 300px'),
       el('div', { class: 'offer-body' },
         el('span', { class: 'where' }, U.term(lang, o.land) + ' · ' + o.region),
-        el('h3', null, o.title),
+        el('h3', null, el('a', { class: 'offer-link', href: link(o, f) }, o.title)),
         el('span', { class: 'meta' }, U.term(lang, o.art) + ' · ' + o.days + ' ' + (lang === 'en' ? 'hunting days' : 'Jagdtage') + ' · ' + T('season') + ' ' + o.saison + ' · ' + T('upTo', { n: o.capacity })),
         el('span', { class: 'meta' }, el('strong', null, T('trophyLbl')), ' ' + trophyText(o)),
         el('div', { class: 'chip-list' }, o.wild.map(function (w) { return el('span', { class: 'chip species-chip', title: U.term(lang, w) }, RR.icon(w), U.term(lang, w)); })),
@@ -132,8 +132,8 @@
   function marquee() {
     var items = [];
     RR.SPECIES.forEach(function (sp) { items.push(el('span', { class: 'mq-item' }, RR.icon(sp.wild, 22), U.term(lang, sp.wild))); });
-    uniq('art').forEach(function (a) { items.push(el('span', { class: 'mq-item' }, U.term(lang, a))); });
-    uniq('land').forEach(function (l) { items.push(el('span', { class: 'mq-item' }, U.term(lang, l))); });
+    uniq('art').forEach(function (a) { items.push(el('span', { class: 'mq-item' }, RR.icon(a, 22), U.term(lang, a))); });
+    uniq('land').forEach(function (l) { items.push(el('span', { class: 'mq-item' }, RR.flag(l, 24), U.term(lang, l))); });
     var half = function () { return el('span', { class: 'mq-half' }, items.map(function (n) { return n.cloneNode(true); })); };
     U.replace(document.getElementById('marquee'), half(), half());
   }
