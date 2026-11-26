@@ -301,10 +301,10 @@
     if (cache.lang !== lang) { if (cache.gallery) cache.gallery._stop(); cache.lang = lang; cache.gallery = gallery(offer); cache.map = mapSection(offer); cache.reviews = RR.reviews ? RR.reviews.section(offer, lang, T) : null; }
     U.replace(content,
       el('div', { class: 'detail-head' + intro },
-        el('span', { class: 'where' }, U.term(lang, offer.land) + ' · ' + offer.region),
+        el('span', { class: 'where' }, RR.flag(offer.land, 20), U.term(lang, offer.land) + ' · ' + offer.region),
         el('h1', null, offer.title + ' – ' + offer.days + ' ' + (lang === 'en' ? 'hunting days' : 'Jagdtage')),
         el('div', { class: 'chip-list', style: 'align-items:center' },
-          el('span', { class: 'chip strong' }, U.term(lang, offer.art)),
+          el('span', { class: 'chip strong species-chip' }, RR.icon(offer.art, 18), U.term(lang, offer.art)),
           offer.wild.map(function (w) { return el('span', { class: 'chip species-chip' }, RR.icon(w), U.term(lang, w)); }),
           offer.instant ? el('span', { class: 'flag-ok', style: 'font-size:13px;font-weight:600;margin-left:6px' }, '● ' + T('available'))
             : el('span', { class: 'flag-req', style: 'font-size:13px;font-weight:600;margin-left:6px' }, '● ' + T('onRequest')),

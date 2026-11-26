@@ -95,7 +95,7 @@
     media.appendChild(el('span', { class: 'badge' }, o.recommended.why));
     return el('a', { class: 'rec-card tilt reveal', href: link(o, f) }, el('span', { class: 'spot', 'aria-hidden': 'true' }), media,
       el('div', { class: 'rec-body' },
-        el('span', { class: 'where' }, U.term(lang, o.land) + ' · ' + o.region + ' · ' + U.term(lang, o.art)),
+        el('span', { class: 'where' }, RR.flag(o.land, 18), U.term(lang, o.land) + ' · ' + o.region + ' · ', RR.icon(o.art, 15), U.term(lang, o.art)),
         el('h3', null, o.title),
         el('span', { class: 'text' }, o.recommended.text),
         el('div', { class: 'rec-foot' },
@@ -108,9 +108,9 @@
     var hasTravel = o.travel.some(function (t) { return t.price > 0; });
     return el('article', { class: 'offer reveal' }, img(o, '(max-width: 700px) 100vw, 300px'),
       el('div', { class: 'offer-body' },
-        el('span', { class: 'where' }, U.term(lang, o.land) + ' · ' + o.region),
+        el('span', { class: 'where' }, RR.flag(o.land, 18), U.term(lang, o.land) + ' · ' + o.region),
         el('h3', null, el('a', { class: 'offer-link', href: link(o, f) }, o.title)),
-        el('span', { class: 'meta' }, U.term(lang, o.art) + ' · ' + o.days + ' ' + (lang === 'en' ? 'hunting days' : 'Jagdtage') + ' · ' + T('season') + ' ' + o.saison + ' · ' + T('upTo', { n: o.capacity })),
+        el('span', { class: 'meta' }, el('span', { class: 'art-tag' }, RR.icon(o.art, 16), U.term(lang, o.art)), ' · ' + o.days + ' ' + (lang === 'en' ? 'hunting days' : 'Jagdtage') + ' · ' + T('season') + ' ' + o.saison + ' · ' + T('upTo', { n: o.capacity })),
         el('span', { class: 'meta' }, el('strong', null, T('trophyLbl')), ' ' + trophyText(o)),
         el('div', { class: 'chip-list' }, o.wild.map(function (w) { return el('span', { class: 'chip species-chip', title: U.term(lang, w) }, RR.icon(w), U.term(lang, w)); })),
         el('div', { class: 'flags' },

@@ -532,3 +532,22 @@ body.rr-map-lock { overflow: hidden; }
 
 /* Laufband: Flaggen */
 .mq-item .flag { border-radius: 3px; box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
+
+/* ============ Runde 3 ============ */
+/* Fadenkreuz nur über Bildern */
+html.scope-on, html.scope-on * { cursor: none !important; }
+.cursor-scope { position: fixed; top: 0; left: 0; width: 34px; height: 34px; margin: -17px 0 0 -17px; border: 1.5px solid #fff; border-radius: 50%; pointer-events: none; z-index: 9999; opacity: 0; transition: opacity .2s;
+  mix-blend-mode: normal; box-shadow: 0 0 0 1px rgba(0,0,0,.25), inset 0 0 0 1px rgba(0,0,0,.2); }
+.cursor-scope.on { opacity: 1; }
+.cursor-scope::before, .cursor-scope::after { content: ''; position: absolute; background: #fff; box-shadow: 0 0 0 .5px rgba(0,0,0,.35); }
+.cursor-scope::before { left: 50%; top: -8px; bottom: -8px; width: 1.5px; transform: translateX(-50%); -webkit-mask: linear-gradient(#000 0 13px, transparent 13px calc(100% - 13px), #000 calc(100% - 13px)); mask: linear-gradient(#000 0 13px, transparent 13px calc(100% - 13px), #000 calc(100% - 13px)); }
+.cursor-scope::after { top: 50%; left: -8px; right: -8px; height: 1.5px; transform: translateY(-50%); -webkit-mask: linear-gradient(90deg, #000 0 13px, transparent 13px calc(100% - 13px), #000 calc(100% - 13px)); mask: linear-gradient(90deg, #000 0 13px, transparent 13px calc(100% - 13px), #000 calc(100% - 13px)); }
+/* roter Punkt in der Mitte */
+.cursor-scope { background: radial-gradient(circle, #E8793D 0 2px, transparent 2.5px); }
+
+/* Flaggen & Jagdart-Icons in Texten */
+.where { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.where .flag { border-radius: 2px; box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
+.where .icon { color: var(--accent); }
+.art-tag { display: inline-flex; align-items: center; gap: 5px; font-weight: 600; color: var(--green-dark); vertical-align: middle; }
+.art-tag .icon { color: var(--accent); }
