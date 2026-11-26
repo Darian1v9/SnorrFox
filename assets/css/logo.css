@@ -4,3 +4,5 @@
 .logo:hover .logo-mark { transform: rotate(-6deg) scale(1.06); }
 .site-footer .logo-mark { width: 28px; height: 28px; }
 @media (max-width: 420px) { .site-header .logo-mark { width: 32px; height: 32px; } }
+/* Logo ganz links im Header */
+.site-header .logo { order: -1; margin-right: auto; }
