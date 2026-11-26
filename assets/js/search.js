@@ -47,7 +47,21 @@
     writeForm(keep);
   }
 
+  /* Kalender: nichts aus der Vergangenheit, "Bis" nie vor "Von" */
+  function today() {
+    var d = new Date(), p = function (n) { return (n < 10 ? '0' : '') + n; };
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+  }
+  function guardDates() {
+    var t = today();
+    form.from.min = t;
+    if (form.from.value && form.from.value < t) form.from.value = t;
+    form.to.min = form.from.value || t;
+    if (form.to.value && form.to.value < form.to.min) form.to.value = form.to.min;
+  }
+
   function readForm() {
+    guardDates();
     return {
       from: form.from.value, to: form.to.value, land: form.land.value, wild: form.wild.value, art: form.art.value,
       h: form.h.value || '1', g: form.g.value || '0', trophy: form.trophy.value,
@@ -178,8 +192,9 @@
     marquee(); stats(); render();
   }
 
+  guardDates();
   form.addEventListener('input', render);
   form.addEventListener('change', render);
-  form.addEventListener('reset', function () { setTimeout(function () { form.h.value = '1'; form.g.value = '0'; render(); }, 0); });
+  form.addEventListener('reset', function () { setTimeout(function () { form.h.value = '1'; form.g.value = '0'; guardDates(); render(); }, 0); });
   setLang(lang);
 })();
